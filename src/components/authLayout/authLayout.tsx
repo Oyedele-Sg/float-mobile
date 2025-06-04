@@ -4,6 +4,7 @@ import {CustomBox} from "../box";
 import {CustomPressable} from "../button";
 import {BackIcon} from "@assets/icons";
 import {CustomText} from "../text";
+import {useRouter} from "expo-router";
 
 type Props = {
     label?: string
@@ -13,11 +14,15 @@ type Props = {
 };
 
 export const AuthLayoutWrapper = ({ backFn, children, description, label }: Props) => {
+    const router = useRouter()
+
     return (
         <Screen preset="auto" safeAreaEdges={['top']}>
             <CustomBox paddingHorizontal={20}>
                 <CustomBox>
-                    <CustomPressable onPress={backFn}>
+                    <CustomPressable onPress={() => {
+                        router.back()
+                    }}>
                         <BackIcon />
                     </CustomPressable>
                     <CustomText variant='T3034700' color='neutral_n800' textAlign='center' mt={12}>{label}</CustomText>

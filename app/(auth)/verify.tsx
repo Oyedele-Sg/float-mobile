@@ -1,13 +1,16 @@
 import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/components";
 import { AuthLayoutWrapper } from "../../src/components";
-import {Formik} from "formik";
-import {InfoIcon} from "../../assets/icons";
-import {useRouter} from "expo-router";
+import { Formik } from "formik";
+import { useRouter } from "expo-router";
+import { MMKV } from "../../src/lib/mmkv";
+import {useMutation} from "@tanstack/react-query";
+import {SignupApi} from "../../src/services/Auth/AuthServices.types";
 
-const Description = () => {
+const Description = async () => {
+    const email = await MMKV.getItem("email");
     return (
         <CustomBox alignItems='center' mt={12}>
-            <CustomText variant='T1422400' color='neutral_n800'>Code has been sent to <CustomText variant='T1422600'>Johndoe@gmail.com</CustomText></CustomText>
+            <CustomText variant='T1422400' color='neutral_n800'>Code has been sent to <CustomText variant='T1422600'>{email as any}</CustomText></CustomText>
             <CustomText variant='T1422400' color='neutral_n800'>Enter the code to verify your account</CustomText>
         </CustomBox>
     )
@@ -15,6 +18,12 @@ const Description = () => {
 
 export default function VerifyScreen() {
     const router = useRouter()
+    const useSignupApi = useMutation({
+        mutationFn: SignupApi,
+        onSettled: () => {
+            router.push('/successRegistration')
+        }
+    })
 
     return (
         <AuthLayoutWrapper
@@ -30,7 +39,7 @@ export default function VerifyScreen() {
                         code: '',
                     }}
                     onSubmit={() => {
-                        router.push('/successRegistration')
+                        useSignupApi.mutate({})
                     }}
                 >
                     {({ handleSubmit }) => (
@@ -41,7 +50,7 @@ export default function VerifyScreen() {
                                 <CustomText variant='T1422400' color='neutral_n600'>Resend code in 00:59</CustomText>
                             </CustomBox>
                             <CustomBox mt={10}>
-                                <CustomButton onPress={handleSubmit} label='Verify Account' />
+                                <CustomButton onPress={handleSubmit} loading={useSignupApi.isPending} label='Verify Account' />
                             </CustomBox>
                         </CustomBox>
                     )}

@@ -42,6 +42,13 @@ export const text = {
         fontWeight: 600,
         lineHeight: moderateScale(24, -0.1),
     },
+    T2434700: {
+        fontFamily: 'Inter',
+        fontSize: moderateScale(24, -0.1),
+        fontStyle: 'normal',
+        fontWeight: 700,
+        lineHeight: moderateScale(34, -0.1),
+    },
     T3034700: {
         fontFamily: 'Inter',
         fontSize: moderateScale(30, -0.1),

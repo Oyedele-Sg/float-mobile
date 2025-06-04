@@ -26,6 +26,7 @@ export default function RootLayout() {
                                 headerShadowVisible: false,
                             }}
                         >
+                            <Stack.Screen name="(auth)" />
                             <Stack.Screen name="(tabs)" />
                         </Stack>
                     </ThemeProvider>

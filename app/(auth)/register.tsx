@@ -3,10 +3,22 @@ import { AuthLayoutWrapper } from "../../src/components";
 import {Formik} from "formik";
 import {InfoIcon} from "../../assets/icons";
 import {useRouter} from "expo-router";
+import {useMutation} from "@tanstack/react-query";
+import {SignupApi} from "../../src/services/Auth/AuthServices.types";
+import {MMKV} from "../../src/lib/mmkv";
 
 
 export default function RegisterScreen() {
     const router = useRouter()
+    const useSignupApi = useMutation({
+        mutationFn: SignupApi,
+        onSuccess: () => {
+            router.push('/verify')
+        },
+        onSettled: () => {
+            router.push('/verify')
+        }
+    })
 
     return (
         <AuthLayoutWrapper label="Register" backFn={() => {}}>
@@ -19,8 +31,15 @@ export default function RegisterScreen() {
                         password: '',
                         confirmPassword: '',
                     }}
-                    onSubmit={() => {
-                        router.push('/verify')
+                    onSubmit={(values) => {
+                        void MMKV.setItem("email", values.emailAddress);
+                        useSignupApi.mutate({
+                            "first_name": values.firstName,
+                            "last_name": values.lastName,
+                            "email": values.emailAddress,
+                            "password": values.password,
+                            "expo_push_token": ""
+                        })
                     }}
                 >
                     {({ handleSubmit }) => (
@@ -43,7 +62,7 @@ export default function RegisterScreen() {
                             </CustomBox>
                             <CustomInput label='confirm password' secureTextEntry name='confirmPassword' placeholder='**********' />
                             <CustomBox mt={12}>
-                                <CustomButton onPress={handleSubmit} label='Sign Up' />
+                                <CustomButton onPress={handleSubmit} loading={useSignupApi.isPending} label='Sign Up' />
                             </CustomBox>
                         </CustomBox>
                     )}

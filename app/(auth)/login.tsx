@@ -16,7 +16,7 @@ export default function LoginScreen() {
                         password: '',
                     }}
                     onSubmit={() => {
-                        router.back()
+                        router.push('/addBank')
                     }}
                 >
                     {({ handleSubmit }) => (
@@ -31,7 +31,7 @@ export default function LoginScreen() {
                                 </CustomBox>
                             </CustomBox>
                             <CustomBox mb={22}>
-                                <CustomButton onPress={handleSubmit} label='Sign Up' />
+                                <CustomButton onPress={handleSubmit} label='Login' />
                             </CustomBox>
                             <CustomText textAlign='center' color='gray_950'>Don’t have an account? <CustomText variant='T1422500' color='accent_color'>Sign up</CustomText></CustomText>
                         </CustomBox>
