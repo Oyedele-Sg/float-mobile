@@ -26,7 +26,7 @@ export default function ForgotPasswordScreen() {
                         emailAddress: '',
                     }}
                     onSubmit={() => {
-                        router.back();
+                        router.push("/createNewPassword");
                     }}
                 >
                     {({ handleSubmit }) => (
