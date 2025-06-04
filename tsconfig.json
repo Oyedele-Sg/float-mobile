@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@styles/*": ["./src/styles/*"],
+      "@assets/*": ["./assets/*"],
+      "@utils/*": ["./src/utils/*"],
+    },
+    "alwaysStrict": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-native",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "./src/**/*",
+  ],
+  "extends": "expo/tsconfig.base"
+}

@@ -1,7 +1,7 @@
 {
   "name": "floattransfer",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
@@ -9,13 +9,29 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^11.4.1",
+    "@shopify/restyle": "^2.4.5",
+    "@tanstack/react-query": "^5.79.2",
     "expo": "~53.0.9",
+    "expo-constants": "~17.1.6",
+    "expo-linking": "~7.1.5",
+    "expo-router": "~5.0.7",
     "expo-status-bar": "~2.2.3",
+    "formik": "^2.4.6",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-gesture-handler": "^2.25.0",
+    "react-native-notifier": "^2.0.0",
+    "react-native-reanimated": "^3.18.0",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.10.0",
+    "react-native-size-matters": "^0.4.2",
+    "react-native-svg": "^15.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@types/react": "~19.0.10",
+    "typescript": "~5.8.3"
   },
   "private": true
 }
