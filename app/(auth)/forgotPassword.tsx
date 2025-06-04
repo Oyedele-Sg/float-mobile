@@ -1,12 +1,47 @@
-import {CustomBox, CustomText, Screen} from "../../src/components";
+import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/components";
+import { AuthLayoutWrapper } from "../../src/components";
+import { Formik } from "formik";
+import { useRouter } from "expo-router";
 
+const Description = () => {
+    return (
+        <CustomBox alignItems='center' mt={12}>
+            <CustomText variant='T1422400' color='neutral_n800' textAlign='center'>No worries! Enter your email address below and we will send you a code to reset password.</CustomText>
+        </CustomBox>
+    )
+}
 
 export default function ForgotPasswordScreen() {
+    const router = useRouter()
+
     return (
-        <Screen preset="auto" safeAreaEdges={['top']}>
-            <CustomBox paddingHorizontal={20}>
-                <CustomText>Forgot Password</CustomText>
+        <AuthLayoutWrapper
+            label="Forgot Password"
+            backFn={() => {}}
+            description={Description}
+        >
+            <CustomBox>
+                <Formik
+                    initialValues={{
+                        emailAddress: '',
+                    }}
+                    onSubmit={() => {
+                        router.back();
+                    }}
+                >
+                    {({ handleSubmit }) => (
+                        <CustomBox gap={22}>
+                            <CustomInput label='email' name='emailAddress' placeholder='Email Address' />
+                            <CustomBox>
+                                <CustomButton
+                                    onPress={handleSubmit}
+                                    label='Send Code'
+                                />
+                            </CustomBox>
+                        </CustomBox>
+                    )}
+                </Formik>
             </CustomBox>
-        </Screen>
+        </AuthLayoutWrapper>
     )
 }

@@ -7,7 +7,7 @@ import {CustomText} from "../text";
 
 type Props = {
     label?: string
-    description?: ReactNode
+    description?: () => ReactNode
     backFn: () => void
     children: ReactNode
 };
@@ -20,8 +20,8 @@ export const AuthLayoutWrapper = ({ backFn, children, description, label }: Prop
                     <CustomPressable onPress={backFn}>
                         <BackIcon />
                     </CustomPressable>
-                    <CustomText variant='T3034700' color='neutral_n800' textAlign='center'>{label}</CustomText>
-                    {description}
+                    <CustomText variant='T3034700' color='neutral_n800' textAlign='center' mt={12}>{label}</CustomText>
+                    {description && description()}
                 </CustomBox>
 
                 <CustomBox mt={23}>

@@ -2,9 +2,12 @@ import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/compon
 import { AuthLayoutWrapper } from "../../src/components";
 import {Formik} from "formik";
 import {InfoIcon} from "../../assets/icons";
+import {useRouter} from "expo-router";
 
 
 export default function RegisterScreen() {
+    const router = useRouter()
+
     return (
         <AuthLayoutWrapper label="Register" backFn={() => {}}>
             <CustomBox>
@@ -16,7 +19,9 @@ export default function RegisterScreen() {
                         password: '',
                         confirmPassword: '',
                     }}
-                    onSubmit={() => {}}
+                    onSubmit={() => {
+                        router.push('/verify')
+                    }}
                 >
                     {({ handleSubmit }) => (
                         <CustomBox gap={10}>
