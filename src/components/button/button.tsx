@@ -8,6 +8,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { CustomBox } from '../box';
 import { CustomText } from '../text';
 import { PressableScale } from './touchableScale';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export type CustomButtonProps = VariantProps<Theme, 'buttonVariants'> &
     VariantProps<Theme, 'textVariants', 'textVariants'> & VariantProps<Theme, 'colors', 'colors'> & {
@@ -54,7 +55,6 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
         if (!netInfo.isConnected) {
             return;
         }
-
         onPress();
     };
 
@@ -67,7 +67,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
             {icon}
             <CustomText
                 variant={textVariants || 'T1624600'}
-                color={(disabled || loading) ? 'buttonDisabled' : colors || 'secondary_white'}
+                color={(disabled || loading) ? 'secondary_white' : colors || 'white'}
                 style={{ marginLeft: icon ? 6 : 0 }}
             >
                 {loading ? (loadingText || 'Loading...') : label}
@@ -80,6 +80,10 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
         transparentCheck,
     ];
 
+    const buttonVariantStyle = (loading || disabled)
+        ? 'disabled'
+        : variant;
+
     return (
         <PressableScale disabled={disabled}>
             <Pressable
@@ -89,14 +93,31 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
                 style={{ width: '100%', ...style }}
                 disabled={loading || disabled}
             >
-                <Button
-                    variant={variant}
-                    justifyContent="center"
-                    alignItems="center"
-                    style={buttonStyles as any}
-                >
-                    {buttonContent}
-                </Button>
+                {(loading || disabled || variant === 'auth') ? (
+                    <Button
+                        variant={buttonVariantStyle}
+                        justifyContent="center"
+                        alignItems="center"
+                        style={buttonStyles as any}
+                    >
+                        {buttonContent}
+                    </Button>
+                    ) : (
+                    <LinearGradient
+                        colors={['#000000', '#C7160C']}
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.5, y: 1 }}
+                        style={[{
+                        width: '100%',
+                        height: 48,
+                        borderRadius: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        }, buttonStyle]}
+                    >
+                        {buttonContent}
+                    </LinearGradient>
+                )}
             </Pressable>
         </PressableScale>
     );

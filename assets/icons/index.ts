@@ -1,2 +1,7 @@
 export { default as BackIcon } from './BackIcon'
 export { default as InfoIcon } from './InfoIcon'
+export { default as ExchangeIcon } from './ExchangeIcon'
+export { default as ChevronDownIcon } from './ChevronDownIcon'
+export { default as FlagIcon } from './FlagIcon'
+export { default as ClockIcon } from './ClockIcon'
+export { default as ChevronRightIcon } from './ChevronRightIcon'

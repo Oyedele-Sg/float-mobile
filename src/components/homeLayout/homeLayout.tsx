@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import {useRouter} from "expo-router";
 import { Screen } from '../screen'
 import { CustomBox } from '../box'
 import { CustomPressable } from '../button'
@@ -7,23 +8,28 @@ import { CustomText } from '../text'
 
 type Props = {
   header?: string
-  backFn?: () => void
+  title?: string
+  backBt?: boolean
+  description?: string
   children: ReactNode
 }
 
-export const HomeLayoutWrapper = ({ backFn, children, header }: Props) => {
+export const HomeLayoutWrapper = ({ backBt, children, header, description, title }: Props) => {
+  const router = useRouter()
   return (
     <Screen preset="auto" safeAreaEdges={['top']}>
       <CustomBox paddingHorizontal={20}>
-        {(backFn || header) && (
+        {(backBt || header) && (
           <CustomBox
             alignItems="center"
             flexDirection="row"
             gap={10}
-            // mb={header ? 0 : 16}
+            mb={16}
           >
-            {backFn && (
-              <CustomPressable onPress={backFn}>
+            {backBt && (
+              <CustomPressable onPress={() => {
+                router.back()
+            }}>
                 <BackIcon />
               </CustomPressable>
             )}
@@ -41,7 +47,15 @@ export const HomeLayoutWrapper = ({ backFn, children, header }: Props) => {
           </CustomBox>
         )}
 
-        <CustomBox mt={23}>{children}</CustomBox>
+        {title && description && (
+          <CustomBox mb={35}>
+            <CustomText variant='T2434700' color='neutral_n800'>{title}</CustomText>
+            <CustomText variant='T1422400' color='gray_950'>{description}</CustomText>
+          </CustomBox>
+        )}
+        
+
+        <CustomBox>{children}</CustomBox>
       </CustomBox>
     </Screen>
   )

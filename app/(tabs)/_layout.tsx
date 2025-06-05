@@ -1,4 +1,5 @@
 import { Tabs } from 'expo-router'
+import { LinearGradient } from 'expo-linear-gradient'
 
 import Ionicons from '@expo/vector-icons/Ionicons'
 import Svg, { Path } from 'react-native-svg'
@@ -8,11 +9,21 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 headerShown: false,
-                headerShadowVisible: false,
-                tabBarActiveTintColor: '',
+                tabBarActiveTintColor: 'white',
+                tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
                 tabBarStyle: {
-                    backgroundColor: 'black'
+                    backgroundColor: 'transparent',
+                    borderTopWidth: 0,
+                    elevation: 0,
                 },
+                tabBarBackground: () => (
+                    <LinearGradient
+                        colors={['#000000', '#C7160C']}
+                        start={{ x: 0.1, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{ flex: 1 }}
+                    />
+                ),
             }}
         >
             <Tabs.Screen

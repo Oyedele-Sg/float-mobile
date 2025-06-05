@@ -1,7 +1,8 @@
 import {CustomBox, CustomButton, CustomInput, CustomPressable, CustomText} from "../../src/components";
 import { AuthLayoutWrapper } from "../../src/components";
 import {Formik} from "formik";
-import {useRouter} from "expo-router";
+import {Link, useRouter} from "expo-router";
+import { Pressable } from 'react-native';
 
 
 export default function LoginScreen() {
@@ -33,7 +34,13 @@ export default function LoginScreen() {
                             <CustomBox mb={22}>
                                 <CustomButton onPress={handleSubmit} label='Login' />
                             </CustomBox>
-                            <CustomText textAlign='center' color='gray_950'>Don’t have an account? <CustomText variant='T1422500' color='accent_color'>Sign up</CustomText></CustomText>
+                            <CustomBox flexDirection='row' justifyContent={'center'}>
+                                <CustomText textAlign='center' color='gray_950'>Don’t have an account? </CustomText>
+                                <Link href={'/register'} push asChild>
+                                    <CustomText variant='T1422500' color='accent_color'>Sign up</CustomText>
+                                </Link>
+
+                            </CustomBox>
                         </CustomBox>
                     )}
                 </Formik>

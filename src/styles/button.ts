@@ -8,5 +8,9 @@ export const button = {
     },
     auth: {
         backgroundColor: 'authButtonBackground',
-    }
+    },
+    disabled: {
+        backgroundColor: 'buttonDisabled',
+        borderColor: 'buttonDisabled',
+    },
 }

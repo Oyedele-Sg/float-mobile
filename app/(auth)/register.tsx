@@ -4,8 +4,8 @@ import {Formik} from "formik";
 import {InfoIcon} from "../../assets/icons";
 import {useRouter} from "expo-router";
 import {useMutation} from "@tanstack/react-query";
-import {SignupApi} from "../../src/services/Auth/AuthServices.types";
-import {MMKV} from "../../src/lib/mmkv";
+import {SignupApi} from "../../src/services/Auth/AuthServices";
+import { MMKV } from "../../src/lib/mmkv";
 
 
 export default function RegisterScreen() {
@@ -16,7 +16,7 @@ export default function RegisterScreen() {
             router.push('/verify')
         },
         onSettled: () => {
-            router.push('/verify')
+            // router.push('/verify')
         }
     })
 
@@ -43,7 +43,7 @@ export default function RegisterScreen() {
                     }}
                 >
                     {({ handleSubmit }) => (
-                        <CustomBox gap={10}>
+                        <CustomBox flex={1} gap={10} mb={20}>
                             <CustomBox flexDirection='row' gap={12}>
                                 <CustomBox flex={1}>
                                     <CustomInput label='first name' name='firstName' placeholder='John' />
@@ -61,7 +61,7 @@ export default function RegisterScreen() {
                                 </CustomBox>
                             </CustomBox>
                             <CustomInput label='confirm password' secureTextEntry name='confirmPassword' placeholder='**********' />
-                            <CustomBox mt={12}>
+                            <CustomBox my={12}>
                                 <CustomButton onPress={handleSubmit} loading={useSignupApi.isPending} label='Sign Up' />
                             </CustomBox>
                         </CustomBox>
