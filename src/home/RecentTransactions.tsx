@@ -189,8 +189,6 @@ export const Transaction = ({
             </CustomBox>
             <CustomBox>
               <CustomText
-                // variant="T1415600"
-                // color="grey_950"
                 mb={4}
                 style={{
                   fontSize: 14.5,
@@ -199,7 +197,6 @@ export const Transaction = ({
                 {name}
               </CustomText>
               <CustomText
-                // color="grey_950"
                 style={{
                   fontSize: 12.5,
                   opacity: 0.5,
@@ -211,8 +208,6 @@ export const Transaction = ({
           </CustomBox>
           <CustomBox flexDirection='row'>
             <CustomText
-              // variant="T1420600"
-              // color={type === 'debit' ? 'debit' : 'grey_900'}
               >
               $
               {amount}
@@ -234,7 +229,6 @@ const NoTransactions = () => (
       width={48}
       height={48}
       borderRadius={48}
-      // bg="merchant_neutral_20"
       alignItems="center"
       justifyContent="center"
       mr={14}
@@ -242,8 +236,6 @@ const NoTransactions = () => (
       <ClockIcon />
     </CustomBox>
     <CustomText
-      // variant="T1417600"
-      // color="grey_600"
     >No transactions yet</CustomText>
   </CustomBox>
 );

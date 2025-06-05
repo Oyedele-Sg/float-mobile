@@ -44,3 +44,36 @@ export type TransactionStatus = {
   created_at: string; // ISO date string
   updated_at: string; // ISO date string
 };
+
+export type ServerUserData = {
+  first_name: string,
+  last_name: string,
+  username: string,
+  selfie_image: string,
+  phone_number: string,
+  gender: string,
+  email: string,
+  last_login: string,
+  is_blocked: boolean,
+  account_user_id: string
+}
+
+export interface SendUser {
+	account_name: string;
+	selfie_image: string;
+	username: string;
+}
+
+export interface CountryFormDataInterface {
+	[countryCode: string]: Field[];
+}
+
+export interface Field {
+	name: string;
+	type: string;
+	required: boolean;
+	enum?: string[];
+	pattern?: string;
+	const?: string;
+	fields?: Field[];
+}

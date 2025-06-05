@@ -1,4 +1,5 @@
-import theme from '@styles/theme'
+import theme from '../src/styles/theme'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@shopify/restyle'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Stack } from 'expo-router'
@@ -19,17 +20,19 @@ export default function RootLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <QueryClientProvider client={queryClient}>
                 <NotifierWrapper>
-                    <ThemeProvider theme={theme}>
-                        <Stack
-                            screenOptions={{
-                                headerShown: false,
-                                headerShadowVisible: false,
-                            }}
-                        >
-                            <Stack.Screen name="(auth)" />
-                            <Stack.Screen name="(tabs)" />
-                        </Stack>
-                    </ThemeProvider>
+                    <BottomSheetModalProvider>
+                        <ThemeProvider theme={theme}>
+                            <Stack
+                                screenOptions={{
+                                    headerShown: false,
+                                    headerShadowVisible: false,
+                                }}
+                            >
+                                <Stack.Screen name="(auth)" />
+                                <Stack.Screen name="(tabs)" />
+                            </Stack>
+                        </ThemeProvider>
+                    </BottomSheetModalProvider>
                 </NotifierWrapper>
             </QueryClientProvider>
         </GestureHandlerRootView>

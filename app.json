@@ -3,7 +3,7 @@
     "name": "floatTransfer",
     "slug": "floatTransfer",
     "version": "1.0.0",
-    "scheme": "floatTransfer-scheme",
+    "scheme": "floattransferscheme",
     "plugins": [
       "expo-router"
     ]
