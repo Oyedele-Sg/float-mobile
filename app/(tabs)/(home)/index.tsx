@@ -40,6 +40,8 @@ export default function HomeScreen() {
             tp: '',
           }}
           onSubmit={(values) => {
+            
+            router.push('/(beneficiary)')
           }}
         >
           {({ handleSubmit }) => (
@@ -113,11 +115,11 @@ export default function HomeScreen() {
                 </CustomBox>
               </CustomBox> */}
 
-              {/* <CustomBox mb={22}>
-                  <CustomButton onPress={handleSubmit} label='Next' />
-              </CustomBox> */}
+              <CustomBox mb={22}>
+                  <CustomButton disabled={!(countryName.length > 0)} onPress={handleSubmit} label='Next' />
+              </CustomBox>
 
-              {/* {countryName.length > 0 && countryName.length > 0 && (
+              {/* {countryName.length > 0 && (
                 <InternationalSendForms />
               )} */}
 
@@ -136,15 +138,11 @@ export default function HomeScreen() {
         handleComponent={handle}
         backdropComponent={renderBackdrop}
       >
-        {/* <BottomSheetView> */}
-          <CustomBox></CustomBox>
-          
-              {/* </BottomSheetView> */}
-        {/* <InternationalCountryModal
+        <InternationalCountryModal
           onClose={() => {
             dismissModal();
           }}
-        /> */}
+        />
       </BottomSheetModal>
         
     </HomeLayoutWrapper>

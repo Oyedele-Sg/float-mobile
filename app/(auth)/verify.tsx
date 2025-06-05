@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { useRouter } from "expo-router";
 import { MMKV } from "../../src/lib/mmkv";
 import {useMutation} from "@tanstack/react-query";
-import {SignupApi} from "../../src/services/Auth/AuthServices.types";
+import { EmailVerifyOTP } from '../../src/services/Auth/AuthServices';
 
 const Description = async () => {
     const email = await MMKV.getItem("email");
@@ -18,12 +18,18 @@ const Description = async () => {
 
 export default function VerifyScreen() {
     const router = useRouter()
-    const useSignupApi = useMutation({
-        mutationFn: SignupApi,
-        onSettled: () => {
-            router.push('/successRegistration')
-        }
-    })
+    const useVerifyOtp = useMutation({
+        mutationFn: EmailVerifyOTP,
+          onSuccess: (data) => {
+              if (data) {
+                  console.log('OTPDATA', data);
+                  router.push('/login')
+            }
+          },
+          onError: () => {
+            // setStatus(false);
+          },
+      });
 
     return (
         <AuthLayoutWrapper
@@ -38,8 +44,8 @@ export default function VerifyScreen() {
                     initialValues={{
                         code: '',
                     }}
-                    onSubmit={() => {
-                        useSignupApi.mutate({})
+                    onSubmit={(values) => {
+                        useVerifyOtp.mutate({ otp: values.code, is_signup: true });
                     }}
                 >
                     {({ handleSubmit }) => (
@@ -50,7 +56,7 @@ export default function VerifyScreen() {
                                 <CustomText variant='T1422400' color='neutral_n600'>Resend code in 00:59</CustomText>
                             </CustomBox>
                             <CustomBox mt={10}>
-                                <CustomButton onPress={handleSubmit} loading={useSignupApi.isPending} label='Verify Account' />
+                                <CustomButton onPress={handleSubmit} loading={useVerifyOtp.isPending} label='Verify Account' />
                             </CustomBox>
                         </CustomBox>
                     )}

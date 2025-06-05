@@ -28,15 +28,20 @@ export const userLogin = (
   const pickedUserData = pickUserData(data);
 
   const newState: Partial<AppStore> = {
-    // userData: {
-    //   ...currentState.userData,
-    //   ...pickedUserData,
-    // },
-    // authData: {
-    //   ...currentState.authData,
-    //   isLoggedIn: true,
-    // },
+    userData: {
+      ...currentState.userData,
+      ...pickedUserData,
+    },
+    authData: {
+      ...currentState.authData,
+      isLoggedIn: true,
+    },
   };
+
+  set(() => ({
+    ...currentState,
+    ...newState,
+  }));
 
 };
 

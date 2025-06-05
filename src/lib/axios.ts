@@ -10,7 +10,7 @@ export type DeviceInfoData = {
     ip_address: string | undefined | null;
 };
 
-const BASE_API = "https://float-transfer-fa9e38b6b8a2.herokuapp.com/";
+const BASE_API = 'https://float-transfer-fa9e38b6b8a2.herokuapp.com/';
 
 const deviceId = DeviceInfo.getUniqueIdSync();
 

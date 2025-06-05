@@ -58,7 +58,7 @@ export const InternationalCountryModal = ({ onClose }: Props) => {
 				borderTopLeftRadius: 8,
 				borderTopRightRadius: 8
 			}}>
-			<CustomBox flex={1} pt={33} paddingHorizontal={19}>
+			<CustomBox flex={1} pt={20} paddingHorizontal={19}>
 				<CustomBox pb={80} flex={1}>
 					<CustomText variant='T2434700' color='gray_950' mb={15}>
 						Country

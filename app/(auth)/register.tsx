@@ -6,6 +6,9 @@ import {useRouter} from "expo-router";
 import {useMutation} from "@tanstack/react-query";
 import {SignupApi} from "../../src/services/Auth/AuthServices";
 import { MMKV } from "../../src/lib/mmkv";
+import { validateValues } from '../../src/lib/validateValues';
+import { isValidEmail } from '../../src/lib/isValidEmail';
+import { passwordHash } from '../../src/lib/encryptPassword';
 
 
 export default function RegisterScreen() {
@@ -27,22 +30,22 @@ export default function RegisterScreen() {
                     initialValues={{
                         firstName: '',
                         lastName: '',
-                        emailAddress: '',
+                        email: '',
                         password: '',
                         confirmPassword: '',
                     }}
                     onSubmit={(values) => {
-                        void MMKV.setItem("email", values.emailAddress);
+                        void MMKV.setItem("email", values.email);
                         useSignupApi.mutate({
-                            "first_name": values.firstName,
-                            "last_name": values.lastName,
-                            "email": values.emailAddress,
-                            "password": values.password,
-                            "expo_push_token": ""
+                            first_name: values.firstName,
+                            last_name: values.lastName,
+                            email: values.email,
+                            password: passwordHash(values.password),
+                            expo_push_token: ""
                         })
                     }}
                 >
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit, values }) => (
                         <CustomBox flex={1} gap={10} mb={20}>
                             <CustomBox flexDirection='row' gap={12}>
                                 <CustomBox flex={1}>
@@ -52,7 +55,7 @@ export default function RegisterScreen() {
                                     <CustomInput label='last name' name='lastName' placeholder='Doe' />
                                 </CustomBox>
                             </CustomBox>
-                            <CustomInput label='email' name='emailAddress' placeholder='Email Address' />
+                            <CustomInput label='email' name='email' placeholder='Email Address' />
                             <CustomBox>
                                 <CustomInput label='password' secureTextEntry name='password' placeholder='**********' />
                                 <CustomBox flexDirection='row' alignItems='center' gap={4} mt={8}>
@@ -62,7 +65,10 @@ export default function RegisterScreen() {
                             </CustomBox>
                             <CustomInput label='confirm password' secureTextEntry name='confirmPassword' placeholder='**********' />
                             <CustomBox my={12}>
-                                <CustomButton onPress={handleSubmit} loading={useSignupApi.isPending} label='Sign Up' />
+                                <CustomButton
+                                    disabled={!(validateValues(values) && isValidEmail(values.email))}
+                                    onPress={handleSubmit}
+                                    loading={useSignupApi.isPending} label='Sign Up' />
                             </CustomBox>
                         </CustomBox>
                     )}

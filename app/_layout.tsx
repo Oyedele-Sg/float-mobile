@@ -17,24 +17,24 @@ export default function RootLayout() {
     })
 
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <QueryClientProvider client={queryClient}>
-                <NotifierWrapper>
-                    <BottomSheetModalProvider>
-                        <ThemeProvider theme={theme}>
-                            <Stack
-                                screenOptions={{
-                                    headerShown: false,
-                                    headerShadowVisible: false,
-                                }}
-                            >
-                                <Stack.Screen name="(auth)" />
-                                <Stack.Screen name="(tabs)" />
-                            </Stack>
-                        </ThemeProvider>
-                    </BottomSheetModalProvider>
-                </NotifierWrapper>
-            </QueryClientProvider>
-        </GestureHandlerRootView>
+        <ThemeProvider theme={theme}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <QueryClientProvider client={queryClient}>
+                    <NotifierWrapper>
+                        <BottomSheetModalProvider>
+                                <Stack
+                                    screenOptions={{
+                                        headerShown: false,
+                                        headerShadowVisible: false,
+                                    }}
+                                >
+                                    <Stack.Screen name="(auth)" />
+                                    <Stack.Screen name="(tabs)" />
+                                </Stack>
+                        </BottomSheetModalProvider>
+                    </NotifierWrapper>
+                </QueryClientProvider>
+            </GestureHandlerRootView>
+        </ThemeProvider>
     )
 }
