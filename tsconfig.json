@@ -2,9 +2,33 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@styles/*": ["./src/styles/*"],
-      "@assets/*": ["./assets/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@/*": [
+        "src/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
     },
     "alwaysStrict": true,
     "target": "esnext",
@@ -16,7 +40,8 @@
     "esModuleInterop": true
   },
   "include": [
-    "./src/**/*",
+    "src/**/*",
+    "app/**/*"
   ],
   "extends": "expo/tsconfig.base"
 }

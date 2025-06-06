@@ -1,4 +1,5 @@
-import theme from '@styles/theme'
+import theme from '../src/styles/theme'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '@shopify/restyle'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Stack } from 'expo-router'
@@ -16,22 +17,24 @@ export default function RootLayout() {
     })
 
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <QueryClientProvider client={queryClient}>
-                <NotifierWrapper>
-                    <ThemeProvider theme={theme}>
-                        <Stack
-                            screenOptions={{
-                                headerShown: false,
-                                headerShadowVisible: false,
-                            }}
-                        >
-                            <Stack.Screen name="(auth)" />
-                            <Stack.Screen name="(tabs)" />
-                        </Stack>
-                    </ThemeProvider>
-                </NotifierWrapper>
-            </QueryClientProvider>
-        </GestureHandlerRootView>
+        <ThemeProvider theme={theme}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <QueryClientProvider client={queryClient}>
+                    <NotifierWrapper>
+                        <BottomSheetModalProvider>
+                                <Stack
+                                    screenOptions={{
+                                        headerShown: false,
+                                        headerShadowVisible: false,
+                                    }}
+                                >
+                                    <Stack.Screen name="(auth)" />
+                                    <Stack.Screen name="(tabs)" />
+                                </Stack>
+                        </BottomSheetModalProvider>
+                    </NotifierWrapper>
+                </QueryClientProvider>
+            </GestureHandlerRootView>
+        </ThemeProvider>
     )
 }

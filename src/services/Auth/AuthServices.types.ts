@@ -1,6 +1,13 @@
-import { PublicAxios } from "../../lib/axios";
 
-export async function SignupApi(data: any): Promise<any> {
-    const response = await PublicAxios.post('/auth/sign-up/', data)
-    return response.data.data
+export type LoginProps = {
+  email: string;
+  password: string;
+};
+
+export type ServerToken = {
+  access_token: string;
+};
+export interface TokenResponse {
+  access_token: string;
 }
+

@@ -2,7 +2,7 @@
 import aes256 from 'aes-everywhere';
 
 3
-const PUBLIC_KEY = 'jiC55Cp9R8MOC8YX7pKAQBcSiZ2JEflovcUsfgghghk';
+const PUBLIC_KEY = '3jiC55Cp9R8MOC8YX7pKAQBcSiZ2JEflovcUsfgghghk';
 // const PUBLIC_KEY = `${process.env.EXPO_PUBLIC_ENCRYPTION_KEY}`;
 
 // Function to generate a random 15-character string

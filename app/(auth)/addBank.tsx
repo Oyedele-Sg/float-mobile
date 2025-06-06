@@ -11,23 +11,31 @@ export default function AddBankScreen() {
                <CustomText variant='T2434700' color='neutral_n800'>Add Bank Card</CustomText>
                <CustomText variant='T1422400' color='gray_950'>Enter card details you’ll use for transactions</CustomText>
 
-               <Formik initialValues={{}} onSubmit={() => {}}>
-                   {() => (
+                <Formik
+                    initialValues={{
+                        card: '',
+                        month: '',
+                        cvv: '',
+                        name: '',
+                    }} onSubmit={() => {
+                    router.replace('/dashboard')
+               }}>
+                   {({ handleSubmit }) => (
                        <CustomBox mt={40}>
                            <CustomText mb={10}>Add Bank</CustomText>
-                           <CustomInput name="" placeholder='Card Number' />
+                           <CustomInput name="card" placeholder='Card Number' />
                            <CustomBox flexDirection='row' gap={12} mt={12} mb={12}>
                                <CustomBox flex={1}>
-                                   <CustomInput name="" placeholder='MM/YY' />
+                                   <CustomInput name="month" placeholder='MM/YY' />
                                </CustomBox>
                                <CustomBox flex={1}>
-                                   <CustomInput name="" placeholder='CVV' />
+                                   <CustomInput name="cvv" placeholder='CVV' />
                                </CustomBox>
                            </CustomBox>
-                           <CustomInput name="" placeholder='Full Name' />
+                           <CustomInput name="name" placeholder='Full Name' />
 
                            <CustomBox mt={22}>
-                               <CustomButton onPress={() => {}} label='Add Card' />
+                               <CustomButton onPress={handleSubmit} label='Add Card' />
                            </CustomBox>
                        </CustomBox>
                    )}

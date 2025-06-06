@@ -4,7 +4,7 @@ import { spacing } from "./spacing";
 import { button } from "./button";
 import { text } from "./text";
 import { colors } from "./colors";
-import { input } from "@styles/input";
+import { input } from './input';
 
 const theme = createTheme({
     spacing: { ...spacing },

@@ -10,7 +10,7 @@ export type DeviceInfoData = {
     ip_address: string | undefined | null;
 };
 
-const BASE_API = "https://float-transfer-fa9e38b6b8a2.herokuapp.com/";
+const BASE_API = 'https://float-transfer-fa9e38b6b8a2.herokuapp.com/';
 
 const deviceId = DeviceInfo.getUniqueIdSync();
 
@@ -113,6 +113,7 @@ addNetworkCheckInterceptor(AuthAxios);
 AuthAxios.interceptors.request.use(
     async (requestConfig: any) => {
         try {
+            console.log('TOKEN', MMKV.getMap('TokenData'));
             // @ts-ignore
             const loginData: { access_token: string } | null =
                 MMKV.getMap('TokenData');

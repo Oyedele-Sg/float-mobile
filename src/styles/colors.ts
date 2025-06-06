@@ -11,6 +11,7 @@ export const colors = {
     // GRAY
     gray_950: "#19151E",
     gray_07: "#687882",
+    gray_bg: "#F7F7F7",
 
     // SECONDARY
     secondary_white: '#F4F4F4',
@@ -21,6 +22,7 @@ export const colors = {
     // ERROR
     error: '#E2304F',
     text_error: '#DC180D',
+    error_200: '#FECDCA',
 
     buttonDisabled: '#FDA29B',
     authButtonBackground: '#090707',
