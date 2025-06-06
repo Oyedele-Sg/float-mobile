@@ -34,3 +34,34 @@ export async function EmailVerifyOTP(data: {
 	);
 	return response.data;
 }
+
+export async function RefreshOTP(data: { email: string }): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  const response = await PublicAxios.post(
+    `/auth/otp/refresh/`,
+    data,
+  );
+  return response.data;
+}
+
+export async function ForgotPasswordApi(email: string): Promise<{
+  success: boolean;
+  message: string;
+}> {
+  const response = await PublicAxios.post('/auth/forgot-password/', { email });
+  return response.data;
+}
+
+export async function ResetPasswordApi(data: {
+  otp: string;
+  password: string;
+}): Promise<{
+    success: boolean;
+    message: string;
+  }> {
+  const response = await PublicAxios.post('/auth/reset-password/', data);
+  return response.data;
+}
+

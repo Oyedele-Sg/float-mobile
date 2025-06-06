@@ -8,12 +8,21 @@ import { isValidEmail } from '../../src/lib/isValidEmail';
 import { MMKV } from '../../src/lib/mmkv';
 import { passwordHash } from '../../src/lib/encryptPassword';
 import { useMutation } from '@tanstack/react-query';
-import { LoginApi, GetUsersDetails } from '../../src/services/Auth/AuthServices'
+import { LoginApi, GetUsersDetails, RefreshOTP } from '../../src/services/Auth/AuthServices'
 import { useAppStore } from '../../src/store/AppStore';
 
 export default function LoginScreen() {
     const router = useRouter()
     const { authData, userLogin } = useAppStore();
+
+    const useRefreshOTP = useMutation({
+		mutationFn: RefreshOTP,
+        onSuccess: (data) => {
+            if (data.success) {
+                router.push('/verify')
+            }
+        }
+	});
     
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
@@ -21,9 +30,9 @@ export default function LoginScreen() {
             console.log('UESER DATA', JSON.stringify(data, null, 2));
             userLogin(data);
             router.push('/addBank')
-
 		},
-		onError: () => {
+        onError: (error: any) => {
+            console.log('login error', error);
 		},
 		onSettled: () => {
 		}
@@ -35,11 +44,17 @@ export default function LoginScreen() {
               console.log('LOGIN DATA', data);
             if (data.access_token) {
                 authData.saveToken(data);
-                MMKV.setItem('TokenData', data.access_token);
+                MMKV.setMap('TokenData', data);
                 useGetUsers.mutate()
             }
           },
-          onError: (error: Error, variables) => {
+        onError: (error: any, variables) => {
+            console.log('Login ERROR', error, error.message[0]?.msg || error.message);
+            const errorMsg = error.message[0]?.msg || error.message;
+            if (errorMsg === 'Email not verified, please verify your email') {
+				useRefreshOTP.mutate({ email: variables.email });
+				
+			}
           }
       });
 
@@ -72,8 +87,9 @@ export default function LoginScreen() {
                             </CustomBox>
                             <CustomBox mb={22}>
                                 <CustomButton
-                                    // disabled={!validateValues(values)}
+                                    disabled={!validateValues(values) || !isValidEmail(values.email)}
                                     onPress={handleSubmit}
+                                    loading={useRefreshOTP.isPending || useLogin.isPending || useGetUsers.isPending}
                                     label='Login' />
                             </CustomBox>
                             <CustomBox flexDirection='row' justifyContent={'center'}>

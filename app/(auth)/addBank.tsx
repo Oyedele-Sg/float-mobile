@@ -18,7 +18,7 @@ export default function AddBankScreen() {
                         cvv: '',
                         name: '',
                     }} onSubmit={() => {
-                    router.replace('/(tabs)/(home)')
+                    router.replace('/dashboard')
                }}>
                    {({ handleSubmit }) => (
                        <CustomBox mt={40}>

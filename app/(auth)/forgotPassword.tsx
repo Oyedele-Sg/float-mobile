@@ -2,6 +2,10 @@ import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/compon
 import { AuthLayoutWrapper } from "../../src/components";
 import { Formik } from "formik";
 import { useRouter } from "expo-router";
+import { useMutation } from '@tanstack/react-query';
+import { ForgotPasswordApi } from '@/services/Auth/AuthServices';
+import { validateValues } from '@/lib/validateValues';
+import { isValidEmail } from '@/lib/isValidEmail';
 
 const Description = () => {
     return (
@@ -13,6 +17,17 @@ const Description = () => {
 
 export default function ForgotPasswordScreen() {
     const router = useRouter()
+    const useForgetPasswordApi = useMutation({
+        mutationFn: ForgotPasswordApi,
+          onSuccess: (data) => {
+            if (data.success) {
+                router.push({ pathname: '/verify', params: { type: 'forgotpassword'} });
+            }
+          },
+          onError: (data: any) => {
+            // displayErrorMessage('Something went wrong!', `${data.message}`);
+          },
+      });
 
     return (
         <AuthLayoutWrapper
@@ -23,17 +38,20 @@ export default function ForgotPasswordScreen() {
             <CustomBox>
                 <Formik
                     initialValues={{
-                        emailAddress: '',
+                        email: '',
                     }}
-                    onSubmit={() => {
-                        router.push("/createNewPassword");
+                    onSubmit={(values) => {
+                        useForgetPasswordApi.mutate(values.email);
+                        // router.push("/createNewPassword");
                     }}
                 >
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit, values }) => (
                         <CustomBox gap={22}>
-                            <CustomInput label='email' name='emailAddress' placeholder='Email Address' />
+                            <CustomInput label='email' name='email' placeholder='Email Address' />
                             <CustomBox>
                                 <CustomButton
+                                    loading={useForgetPasswordApi.isPending}
+                                    disabled={!isValidEmail(values.email)}
                                     onPress={handleSubmit}
                                     label='Send Code'
                                 />

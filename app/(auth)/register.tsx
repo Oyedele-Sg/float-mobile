@@ -16,7 +16,7 @@ export default function RegisterScreen() {
     const useSignupApi = useMutation({
         mutationFn: SignupApi,
         onSuccess: () => {
-            router.push('/verify')
+            router.push({ pathname: '/verify', params: { type: 'signup'} });
         },
         onSettled: () => {
             // router.push('/verify')

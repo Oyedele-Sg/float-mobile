@@ -1,8 +1,12 @@
 import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/components";
 import { AuthLayoutWrapper } from "../../src/components";
 import { Formik } from "formik";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {InfoIcon} from "../../assets/icons";
+import { useMutation } from '@tanstack/react-query';
+import { ResetPasswordApi } from '@/services/Auth/AuthServices';
+import { passwordHash } from '@/lib/encryptPassword';
+import { validateValues } from '@/lib/validateValues';
 
 const Description = () => {
     return (
@@ -15,6 +19,19 @@ const Description = () => {
 
 export default function CreateNewPasswordScreen() {
     const router = useRouter()
+    const { code } = useLocalSearchParams<{ code: string }>();
+
+    const useResetPasswordApi = useMutation({
+        mutationFn: ResetPasswordApi,
+        onSuccess: (data) => {
+            if (data) {
+                router.push('/login')
+            }
+          },
+        onError: (data: any) => {
+              console.log('error', data);
+          }
+      });
 
     return (
         <AuthLayoutWrapper
@@ -28,9 +45,20 @@ export default function CreateNewPasswordScreen() {
                         password: '',
                         confirmPassword: '',
                     }}
-                    onSubmit={() => {}}
+                    onSubmit={(values) => {
+                        if (code) {
+                            if (values.confirmPassword !== values.password) {
+                                console.log('passwords do not match');
+                                return
+                            }
+                            useResetPasswordApi.mutate({
+                                password: passwordHash(values.password),
+                                otp: code,
+                              });
+                        }
+                    }}
                 >
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit, values }) => (
                         <CustomBox gap={22}>
                             <CustomBox>
                                 <CustomInput label='password' secureTextEntry name='password' placeholder='**********' />
@@ -42,8 +70,10 @@ export default function CreateNewPasswordScreen() {
                             <CustomInput label='confirm password' secureTextEntry name='confirmPassword' placeholder='**********' />
                             <CustomBox>
                                 <CustomButton
+                                    loading={useResetPasswordApi.isPending}
+                                    disabled={!validateValues(values)}
                                     onPress={handleSubmit}
-                                    label='Resend Password'
+                                    label='Reset Password'
                                 />
                             </CustomBox>
                         </CustomBox>

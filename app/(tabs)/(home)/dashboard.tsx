@@ -17,6 +17,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 export default function HomeScreen() {
   const router = useRouter()
   const { countryName, countryCode } = useAppStore(useShallow((state) => state.send));
+  const { last_name } = useAppStore(useShallow((state) => state.userData));
 
   const screenSnapPoints = useScreenSnapshots(['65%', '65%'], ['60%', '60%']);
 
@@ -32,7 +33,7 @@ export default function HomeScreen() {
     backdropPressBehavior: 'close',
   });
   return (
-    <HomeLayoutWrapper title='Send' description='Choose a destination country to send USD'  header='Hello, John'>
+    <HomeLayoutWrapper title='Send' description='Choose a destination country to send USD'  header={`Hello ${last_name}`}>
       <CustomBox>
         <Formik
           initialValues={{
@@ -41,7 +42,7 @@ export default function HomeScreen() {
           }}
           onSubmit={(values) => {
             
-            router.push('/(beneficiary)')
+            router.push('/beneficiaries')
           }}
         >
           {({ handleSubmit }) => (
