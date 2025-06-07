@@ -1,23 +1,44 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import {useRouter} from "expo-router";
 import { Screen } from '../screen'
 import { CustomBox } from '../box'
 import { CustomPressable } from '../button'
 import { BackIcon } from '@assets/icons'
 import { CustomText } from '../text'
+import { FlatList } from 'react-native-gesture-handler';
+import { SectionList } from 'react-native';
 
 type Props = {
   header?: string
   title?: string
   backBt?: boolean
   description?: string
+  scroll?: boolean
+  preset ?: 'fixed' | 'scroll' | 'auto'
   children: ReactNode
 }
 
-export const HomeLayoutWrapper = ({ backBt, children, header, description, title }: Props) => {
+export const HomeLayoutWrapper = ({ backBt, children, header, description, title, scroll = true, preset }: Props) => {
   const router = useRouter()
+  
+  // Detect if children include a VirtualizedList (FlatList or SectionList)
+  const containsVirtualizedList = useMemo(() => {
+    const check = (node: ReactNode): boolean => {
+      if (!node) return false
+      if (Array.isArray(node)) return node.some(check)
+      if (typeof node === 'object' && 'type' in node) {
+        const type = node.type
+        if (type === FlatList || type === SectionList) return true
+        if ((node as any).props?.children) return check((node as any).props.children)
+      }
+      return false
+    }
+    return check(children)
+  }, [children])
+
+  const screenPreset = scroll && !containsVirtualizedList ? 'auto' : 'fixed'
   return (
-    <Screen preset="auto" safeAreaEdges={['top']}>
+    <Screen preset={preset || screenPreset} safeAreaEdges={['top']}>
       <CustomBox paddingHorizontal={20}>
         {(backBt || header) && (
           <CustomBox

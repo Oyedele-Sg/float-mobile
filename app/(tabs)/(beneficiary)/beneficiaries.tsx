@@ -1,35 +1,13 @@
-import {CustomBox, CustomButton, CustomPressable, CustomText, HomeLayoutWrapper, Screen} from "../../../src/components";
-import { useSafeAreaInsetsStyle } from "../../../src/utils/useSafeAreaInsetStyle";
+import {CustomBox, CustomPressable, CustomText, HomeLayoutWrapper, SkeletonPlaceholderItem, StyledInput} from "../../../src/components";
 import CountryFlag from 'react-native-country-flag';
 import { useRouter } from "expo-router";
-
-export const dummyBeneficiaries = [
-  {
-    countryCode: 'NG', // Nigeria
-    name: 'Chinonso Okafor',
-    bank: 'GTBank',
-  },
-  {
-    countryCode: 'GH', // Ghana
-    name: 'Kwame Mensah',
-    bank: 'Ecobank',
-  },
-  {
-    countryCode: 'TW', // Kenya
-    name: 'Achieng Otieno',
-    bank: 'KCB Bank',
-  },
-  {
-    countryCode: 'ZA', // South Africa
-    name: 'Lebo Mokoena',
-    bank: 'FNB',
-  },
-  {
-    countryCode: 'US', // Uganda
-    name: 'Brian Katumba',
-    bank: 'Stanbic Bank',
-  },
-];
+import { useGetInternationalBeneficiariesPaginated } from '@/services/Home/homeServices';
+import { useShallow } from 'zustand/shallow';
+import { useAppStore } from '@/store/AppStore';
+import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 export const Beneficiary = ({countryCode, name, bank}: {countryCode: string, name: string, bank: string}) => {
   return (
@@ -93,14 +71,83 @@ export const Beneficiary = ({countryCode, name, bank}: {countryCode: string, nam
 
 
 export default function BeneficiaryScreen() {
-    const router = useRouter()
+  const router = useRouter()
+  const { data, isLoading, fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage, refetch } = useGetInternationalBeneficiariesPaginated();
+  const { setInternationalPayoutID, selectUser } = useAppStore(
+    useShallow((state) => state.send)
+  );
+const [search, setSearch] = useState<string>('');
+
+  // Flatten paginated results
+  const beneficiaries = data?.pages.flatMap(page => page.beneficiaries) ?? [];
+
+  // Apply search filter
+  const filteredBeneficiaries = beneficiaries.filter(item =>
+    item.foreign_payout_beneficiary.beneficiary_name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+	useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   return (
     <HomeLayoutWrapper header='Choose Beneficiary' backBt >
-      <CustomBox flex={1}>
-        {dummyBeneficiaries.map((item) => (
-            <Beneficiary key={item.countryCode} bank={item.bank} countryCode={item.countryCode} name={item.name} />
-        ))}
+      <CustomBox minHeight={300} py={20} flex={1}>
+					<CustomBox mb={20}>
+						<StyledInput
+							placeholder='Search Beneficiary'
+							value={search}
+							onChange={(e) => setSearch(e.nativeEvent.text)}
+						/>
+					</CustomBox>
+        {isLoading ? (
+          <CustomBox >
+            {new Array(4).fill(null).map((_, index) => (
+              <SkeletonPlaceholderItem key={index} height={80} />
+            ))}
+          </CustomBox>
+        ): (
+            <FlatList
+            data={filteredBeneficiaries}
+            keyExtractor={(item, index) =>
+              item.foreign_payout_beneficiary.foreign_payout_beneficiary_id + index
+            }
+            renderItem={({ item }) => (
+              <Beneficiary
+                countryCode={item.foreign_payout_beneficiary.beneficiary_country}
+                name={item.foreign_payout_beneficiary.beneficiary_name}
+                bank={item.foreign_payout_beneficiary.beneficiary_bank_name}
+              />
+            )}
+            onEndReached={() => {
+              if (hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+            }}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={() =>
+              isFetchingNextPage ? (
+                <ActivityIndicator size="small" style={{ marginVertical: 20 }} />
+              ) : null
+            }
+            ListEmptyComponent={
+              <CustomBox
+                flex={1}
+                alignItems="center"
+                justifyContent="center"
+                py={40}
+              >
+                <CustomText>No beneficiaries found.</CustomText>
+              </CustomBox>
+            }
+          />
+        )}
       </CustomBox>
         
     </HomeLayoutWrapper>

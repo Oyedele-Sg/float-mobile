@@ -7,6 +7,13 @@ export const text = {
         fontStyle: 'normal',
         lineHeight: moderateScale(20, -0.1),
     },
+    T1420400: {
+        fontFamily: 'Inter',
+        fontSize: moderateScale(14, -0.1),
+        fontStyle: 'normal',
+        fontWeight: 400,
+        lineHeight: moderateScale(20, -0.1),
+    },
     T1422400: {
         fontFamily: 'Inter',
         fontSize: moderateScale(14, -0.1),
@@ -21,6 +28,12 @@ export const text = {
         fontWeight: 500,
         lineHeight: moderateScale(22, -0.1),
     },
+    T1420600: {
+        fontFamily: 'Inter',
+        fontSize: moderateScale(14, -0.1),
+        fontStyle: 'normal',
+        lineHeight: moderateScale(20, -0.1),
+    },
     T1422600: {
         fontFamily: 'Inter',
         fontSize: moderateScale(14, -0.1),
@@ -34,6 +47,12 @@ export const text = {
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: moderateScale(24, -0.1),
+    },
+    T1620600: {
+        fontFamily: 'Inter',
+        fontSize: moderateScale(16, -0.1),
+        fontStyle: 'normal',
+        lineHeight: moderateScale(20, -0.1),
     },
     T1624600: {
         fontFamily: 'Inter',

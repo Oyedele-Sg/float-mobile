@@ -77,3 +77,53 @@ export interface Field {
 	const?: string;
 	fields?: Field[];
 }
+
+export interface InternationalSendDataInterface {
+	data: any;
+	email: string;
+	countryCode: string;
+}
+
+export interface ServerResponse {
+	message: string;
+	success: boolean;
+	data: any;
+}
+
+export interface InternationalBeneficiariesResponse {
+	pagination_details: PaginationDetails;
+	beneficiaries: InternationalBeneficiary[];
+}
+
+export interface PaginationDetails {
+	total_results: number;
+	current_results_on_page: number;
+	current_page: number;
+	next_page: number;
+	previous_page: number | null;
+	total_pages: number;
+}
+
+export interface InternationalBeneficiary {
+	foreign_payout_beneficiary_id: string;
+	ranking: number;
+	entity_foreign_payout_beneficiary_id: string;
+	created_at: string;
+	updated_at: string;
+	foreign_payout_beneficiary: ForeignPayoutBeneficiary;
+}
+
+export interface ForeignPayoutBeneficiary {
+	beneficiary_name: string;
+	beneficiary_id: string;
+	beneficiary_currency: string;
+	beneficiary_country: string;
+	beneficiary_creation_status: string;
+	beneficiary_account_number: string;
+	beneficiary_email: string;
+	reference: string;
+	beneficiary_bank_name: string;
+	foreign_payout_beneficiary_id: string;
+	created_at: string;
+	updated_at: string;
+}

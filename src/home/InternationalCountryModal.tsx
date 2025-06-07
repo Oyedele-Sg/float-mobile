@@ -6,13 +6,15 @@ import CountryFlag from 'react-native-country-flag';
 import { useShallow } from 'zustand/react/shallow';
 // import { CountryDataInterface } from '@features/auth/types/authentication.types';
 import { useAppStore } from 'src/store/AppStore';
-import { CustomBox, CustomText, StyledInput, UseBottomSheetView } from 'src/components';
+import { CustomBox, CustomText, SkeletonPlaceholderItem, StyledInput, UseBottomSheetView } from 'src/components';
 import { useGetInternationalFormFieilds } from 'src/services/Home/homeServices';
 
 const DATA = [
 	{ countryName: 'United States', countryCode: 'US' },
 	{ countryName: 'Canada', countryCode: 'CA' },
 	{ countryName: 'Nigeria', countryCode: 'NG' },
+	{ countryName: 'Kenya', countryCode: 'KE' },
+	{ countryName: 'Ghana', countryCode: 'GH' },
 ];
 
 type Props = {
@@ -74,19 +76,11 @@ export const InternationalCountryModal = ({ onClose }: Props) => {
 
 					<CustomBox mt={10} mb={15}>
 						{formData.isLoading ? (
-						<CustomBox></CustomBox>
-							// <SkeletonPlaceholder>
-							// 	<SkeletonPlaceholder.Item>
-							// 		{new Array(15).fill('').map((index) => (
-							// 			<SkeletonPlaceholder.Item
-							// 				key={index}
-							// 				width='auto'
-							// 				height={30}
-							// 				marginBottom={16}
-							// 			/>
-							// 		))}
-							// 	</SkeletonPlaceholder.Item>
-							// </SkeletonPlaceholder>
+							<CustomBox>
+								{new Array(4).fill(null).map((_, index) => (
+									<SkeletonPlaceholderItem key={index} height={30} />
+								))}
+							</CustomBox>
 						) : (
 							<FlatList
 								data={filteredCountries || []}

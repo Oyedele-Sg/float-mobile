@@ -113,7 +113,6 @@ addNetworkCheckInterceptor(AuthAxios);
 AuthAxios.interceptors.request.use(
     async (requestConfig: any) => {
         try {
-            console.log('TOKEN', MMKV.getMap('TokenData'));
             // @ts-ignore
             const loginData: { access_token: string } | null =
                 MMKV.getMap('TokenData');
