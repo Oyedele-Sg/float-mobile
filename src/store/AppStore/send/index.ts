@@ -47,6 +47,7 @@ SendSlice
         ...state.send,
         foreign_payout_beneficiary_id: payload.foreign_payout_beneficiary_id,
         beneficiary_currency: payload.beneficiary_currency,
+        beneficiary_country: payload.beneficiary_country,
       },
     })),
   setInternationalPayout: (payload) =>

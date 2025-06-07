@@ -41,8 +41,9 @@ export default function HomeScreen() {
             tp: '',
           }}
           onSubmit={(values) => {
-            
-            router.push('/beneficiaries')
+            if (countryName.length > 0 && countryCode.length > 0) {
+              router.push('/sendform')
+            }
           }}
         >
           {({ handleSubmit }) => (
@@ -68,8 +69,7 @@ export default function HomeScreen() {
                       borderRadius={20}
                       borderWidth={1}
                       flex={1}
-                      height={40}
-                      style={{ alignItems: 'center' }}
+                      height={44}
                       borderColor='neutral_50'
                     >
                       {countryName.length > 0 ? (
@@ -82,7 +82,7 @@ export default function HomeScreen() {
                             justifyContent='center'>
                             <CountryFlag isoCode={countryCode} size={15} />
                           </CustomBox>
-                          <CustomText variant="T1422400" color="neutral_50">
+                          <CustomText variant="T1422400" color="gray_950">
                             {countryName}
                           </CustomText>
                       </CustomBox>
@@ -97,7 +97,6 @@ export default function HomeScreen() {
                       <ChevronDownIcon/>
                     </CustomBox>
                   </Pressable>
-
                   <CustomText mt={8} variant="T1422400" color="gray_950">Select a country to send to</CustomText>
                 </CustomBox>
               </CustomBox>

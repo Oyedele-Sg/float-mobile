@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { useNavigation } from '@react-navigation/native';
-
 import { Image } from 'react-native';
 import { TransactionReport } from 'src/services';
 import { CustomBox, CustomPressable, CustomText } from 'src/components';

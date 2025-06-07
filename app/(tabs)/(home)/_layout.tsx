@@ -10,6 +10,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="dashboard" />
       <Stack.Screen name="sendform" />
+      <Stack.Screen name="sendamount" />
     </Stack>
   );
 }
