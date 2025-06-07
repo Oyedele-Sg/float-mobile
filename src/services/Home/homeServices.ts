@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery, type InfiniteData } from '@tanstack/react-query';
+import { QueryFunctionContext, useInfiniteQuery, useQuery, type InfiniteData } from '@tanstack/react-query';
 import { AuthAxios } from 'src/lib/axios';
 import { CountryFormDataInterface, InternationalBeneficiariesResponse, InternationalBeneficiary, InternationalSendDataInterface, ServerResponse } from './home.types';
 
@@ -50,6 +50,24 @@ export function useGetInternationalBeneficiariesPaginated() {
       }
       return undefined;
     },
+  });
+}
+
+export async function GetRemittanceInternationalMinAmount({
+  queryKey,
+}: QueryFunctionContext<ReturnType<any>>): Promise<number> {
+  const [, currency] = queryKey;
+  const response = await AuthAxios.get(
+    `/transactions/remittance/account-types/minimum-amount/?currency=${currency}`,
+  );
+  return response.data;
+}
+
+export function useGetRemittanceInternationalMinAmount(currency: string) {
+  return useQuery({
+    queryKey: ['interremittanceminamount', currency],
+    queryFn: GetRemittanceInternationalMinAmount,
+    enabled: Boolean(currency),
   });
 }
 

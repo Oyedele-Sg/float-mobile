@@ -39,7 +39,7 @@ export const HomeLayoutWrapper = ({ backBt, children, header, description, title
   const screenPreset = scroll && !containsVirtualizedList ? 'auto' : 'fixed'
   return (
     <Screen preset={preset || screenPreset} safeAreaEdges={['top']}>
-      <CustomBox paddingHorizontal={20}>
+      <CustomBox flex={1} paddingHorizontal={20}>
         {(backBt || header) && (
           <CustomBox
             alignItems="center"
@@ -76,7 +76,7 @@ export const HomeLayoutWrapper = ({ backBt, children, header, description, title
         )}
         
 
-        <CustomBox>{children}</CustomBox>
+        <CustomBox flex={1}>{children}</CustomBox>
       </CustomBox>
     </Screen>
   )

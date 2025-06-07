@@ -9,13 +9,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-export const Beneficiary = ({countryCode, name, bank}: {countryCode: string, name: string, bank: string}) => {
+export const Beneficiary = ({countryCode, name, bank, onPress}: {countryCode: string, name: string, bank: string, onPress: ()=> void}) => {
   return (
     <CustomBox mb={18}>
       <CustomPressable
-        onPress={() => {
-          
-        }}
+        onPress={onPress}
       >
         <CustomBox
           flexDirection="row"
@@ -59,7 +57,7 @@ export const Beneficiary = ({countryCode, name, bank}: {countryCode: string, nam
                   opacity: 0.5,
                 }}
               >
-                {bank} (GtBank)
+                {bank}
               </CustomText>
             </CustomBox>
           </CustomBox>
@@ -97,8 +95,8 @@ const [search, setSearch] = useState<string>('');
   );
 
   return (
-    <HomeLayoutWrapper header='Choose Beneficiary' backBt >
-      <CustomBox minHeight={300} py={20} flex={1}>
+    <HomeLayoutWrapper header='Saved Beneficiaries' backBt >
+      <CustomBox py={20} flex={1}>
 					<CustomBox mb={20}>
 						<StyledInput
 							placeholder='Search Beneficiary'
@@ -123,6 +121,23 @@ const [search, setSearch] = useState<string>('');
                 countryCode={item.foreign_payout_beneficiary.beneficiary_country}
                 name={item.foreign_payout_beneficiary.beneficiary_name}
                 bank={item.foreign_payout_beneficiary.beneficiary_bank_name}
+                onPress={() => {
+                  setInternationalPayoutID({
+										foreign_payout_beneficiary_id:
+											item.foreign_payout_beneficiary_id,
+										beneficiary_currency:
+											item.foreign_payout_beneficiary.beneficiary_currency,
+										beneficiary_country:
+											item.foreign_payout_beneficiary.beneficiary_country,
+									});
+									selectUser({
+										account_name:
+											item.foreign_payout_beneficiary.beneficiary_name,
+										username: item.foreign_payout_beneficiary.beneficiary_name,
+										selfie_image: ''
+                  });
+                  router.push('/sendamount')
+                }}
               />
             )}
             onEndReached={() => {

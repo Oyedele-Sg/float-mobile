@@ -59,7 +59,7 @@ export function CustomInput({
                     borderRadius={20}
                     borderWidth={1}
                     flex={1}
-                    height={40}
+                    minHeight={44}
                     style={{ alignItems: 'center' }}
                     borderColor='neutral_50'
                 >
@@ -117,10 +117,11 @@ CustomInput.defaultProps = {
 const styles = StyleSheet.create({
     secureButton: {
         position: 'absolute',
-        top: 10,
+        top: 11,
         right: 18,
     },
     inputStyle: {
+        flex: 1,
         width: '100%',
         fontFamily: 'Inter',
         fontSize: 14,

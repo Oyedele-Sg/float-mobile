@@ -69,7 +69,7 @@ export default function HomeScreen() {
                       borderRadius={20}
                       borderWidth={1}
                       flex={1}
-                      height={40}
+                      height={44}
                       borderColor='neutral_50'
                     >
                       {countryName.length > 0 ? (

@@ -58,7 +58,7 @@ const renderFormField = (
             borderRadius={20}
             borderWidth={1}
             flex={1}
-            height={40}
+            height={44}
             borderColor='neutral_50'>
 						{bankCodebank.bank_name ? (
 							<CustomText variant="T1422400" color="gray_950">

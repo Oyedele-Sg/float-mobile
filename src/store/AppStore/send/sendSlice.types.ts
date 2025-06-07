@@ -17,6 +17,7 @@ export interface ZellePayload {
 export interface InternationalPayoutIDPayload {
   foreign_payout_beneficiary_id: string;
   beneficiary_currency: string;
+  beneficiary_country: string;
 }
 
 export interface InternationalPayoutPayload {
@@ -65,6 +66,7 @@ export interface SendState {
   transaction_pin: string | null;
   foreign_payout_beneficiary_id: string;
   beneficiary_currency: string;
+  beneficiary_country: string;
   payout_initiation_id: string;
   transaction_time: string;
   countryName: string;
@@ -107,6 +109,7 @@ export const initialSendState: SendState = {
   transaction_pin: null,
   foreign_payout_beneficiary_id: '',
   beneficiary_currency: '',
+  beneficiary_country: '',
   payout_initiation_id: '',
   transaction_time: '',
   countryName: '',

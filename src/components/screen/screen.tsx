@@ -121,7 +121,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
     const { style, contentContainerStyle, children } = props
     return (
         <View style={[$outerStyle, style]}>
-            <View style={[$innerStyle, contentContainerStyle]}>{children}</View>
+            <View style={[$innerStyleFixed, contentContainerStyle]}>{children}</View>
         </View>
     )
 }
@@ -214,6 +214,12 @@ export const $outerStyle: ViewStyle = {
 }
 
 export const $innerStyle: ViewStyle = {
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+}
+
+export const $innerStyleFixed: ViewStyle = {
+    flex: 1, // This makes the inner view take full height
     justifyContent: 'flex-start',
     alignItems: 'stretch',
 }
