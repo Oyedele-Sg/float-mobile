@@ -8,7 +8,7 @@ export default function HomeLayout() {
         headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="account" />
+      <Stack.Screen name="index" />
     </Stack>
   );
 }

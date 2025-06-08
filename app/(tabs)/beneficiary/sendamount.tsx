@@ -14,7 +14,7 @@ export default function SendAmountcreen() {
   const router = useRouter()
   const [amount, setAmount] = useState<string | number>(0);
   const [remittanceAmount, setRemittanceAmount] = useState<number>(0);
-  const { beneficiary_country, beneficiary_currency } = useAppStore(
+  const { beneficiary_country, beneficiary_currency, reset } = useAppStore(
     useShallow((state) => state.send)
   );
   const remittanceMinAmountApi =		useGetRemittanceInternationalMinAmount(beneficiary_currency);
@@ -31,7 +31,10 @@ export default function SendAmountcreen() {
     remittanceMinAmountApi.data,
   ]);
   return (
-    <HomeLayoutWrapper backBt header={` How much do you want to send?`} preset='fixed'>
+    <HomeLayoutWrapper backBt header={` How much do you want to send?`} preset='fixed' backFn={() => {
+      reset();
+      router.replace('/beneficiary');
+    }}>
       <CustomBox flex={1}>
         <Formik
           initialValues={{

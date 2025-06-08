@@ -2,8 +2,6 @@ import {CustomBox, CustomPressable, CustomText, HomeLayoutWrapper, SkeletonPlace
 import CountryFlag from 'react-native-country-flag';
 import { useRouter } from "expo-router";
 import { useGetInternationalBeneficiariesPaginated } from '@/services/Home/homeServices';
-import { useShallow } from 'zustand/shallow';
-import { useAppStore } from '@/store/AppStore';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
@@ -73,10 +71,7 @@ export default function BeneficiaryScreen() {
   const { data, isLoading, fetchNextPage, 
     hasNextPage, 
     isFetchingNextPage, refetch } = useGetInternationalBeneficiariesPaginated();
-  const { setInternationalPayoutID, selectUser } = useAppStore(
-    useShallow((state) => state.send)
-  );
-const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
 
   // Flatten paginated results
   const beneficiaries = data?.pages.flatMap(page => page.beneficiaries) ?? [];
@@ -95,7 +90,7 @@ const [search, setSearch] = useState<string>('');
   );
 
   return (
-    <HomeLayoutWrapper header='Saved Beneficiaries' backBt >
+    <HomeLayoutWrapper header='Saved Beneficiaries'>
       <CustomBox py={20} flex={1}>
 					<CustomBox mb={20}>
 						<StyledInput
@@ -122,21 +117,31 @@ const [search, setSearch] = useState<string>('');
                 name={item.foreign_payout_beneficiary.beneficiary_name}
                 bank={item.foreign_payout_beneficiary.beneficiary_bank_name}
                 onPress={() => {
-                  setInternationalPayoutID({
-										foreign_payout_beneficiary_id:
-											item.foreign_payout_beneficiary_id,
-										beneficiary_currency:
-											item.foreign_payout_beneficiary.beneficiary_currency,
-										beneficiary_country:
-											item.foreign_payout_beneficiary.beneficiary_country,
-									});
-									selectUser({
-										account_name:
-											item.foreign_payout_beneficiary.beneficiary_name,
-										username: item.foreign_payout_beneficiary.beneficiary_name,
-										selfie_image: ''
+                  // setInternationalPayoutID({
+									// 	foreign_payout_beneficiary_id:
+									// 		item.foreign_payout_beneficiary_id,
+									// 	beneficiary_currency:
+									// 		item.foreign_payout_beneficiary.beneficiary_currency,
+									// 	beneficiary_country:
+									// 		item.foreign_payout_beneficiary.beneficiary_country,
+									// });
+									// selectUser({
+									// 	account_name:
+									// 		item.foreign_payout_beneficiary.beneficiary_name,
+									// 	username: item.foreign_payout_beneficiary.beneficiary_name,
+									// 	selfie_image: ''
+                  // });
+                  router.push({
+                    pathname: '/beneficiary/beneficiarydetails', params: {
+                      foreign_payout_beneficiary_id: item.foreign_payout_beneficiary_id,
+                      beneficiary_currency: item.foreign_payout_beneficiary.beneficiary_currency,
+										  beneficiary_country:
+                        item.foreign_payout_beneficiary.beneficiary_country,
+                      account_name: item.foreign_payout_beneficiary.beneficiary_name,
+                      beneficiary_bank_name: item.foreign_payout_beneficiary.beneficiary_bank_name,
+                      beneficiary_account_number: item.foreign_payout_beneficiary.beneficiary_account_number,
+                    }
                   });
-                  router.push('/sendamount')
                 }}
               />
             )}

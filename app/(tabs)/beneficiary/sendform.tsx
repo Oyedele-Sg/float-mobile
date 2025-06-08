@@ -437,7 +437,7 @@ export default function SendFormScreen() {
 					onPress={() => {
 						dismissModal();
             reset();
-						router.push('/dashboard')
+						router.replace('/home')
 					}}
 				/>
 			</BottomSheetModal>
