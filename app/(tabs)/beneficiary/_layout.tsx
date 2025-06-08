@@ -8,7 +8,8 @@ export default function HomeLayout() {
         headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="dashboard" />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="beneficiarydetails" />
       <Stack.Screen name="sendform" />
       <Stack.Screen name="sendamount" />
     </Stack>

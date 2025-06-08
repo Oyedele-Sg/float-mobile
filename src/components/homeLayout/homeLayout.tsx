@@ -12,13 +12,14 @@ type Props = {
   header?: string
   title?: string
   backBt?: boolean
+  backFn?: ()=> void
   description?: string
   scroll?: boolean
   preset ?: 'fixed' | 'scroll' | 'auto'
   children: ReactNode
 }
 
-export const HomeLayoutWrapper = ({ backBt, children, header, description, title, scroll = true, preset }: Props) => {
+export const HomeLayoutWrapper = ({ backBt, backFn, children, header, description, title, scroll = true, preset }: Props) => {
   const router = useRouter()
   
   // Detect if children include a VirtualizedList (FlatList or SectionList)
@@ -47,10 +48,15 @@ export const HomeLayoutWrapper = ({ backBt, children, header, description, title
             gap={10}
             mb={16}
           >
-            {backBt && (
+            {backBt && !backFn && (
               <CustomPressable onPress={() => {
                 router.back()
             }}>
+                <BackIcon />
+              </CustomPressable>
+            )}
+            {backBt && backFn && (
+              <CustomPressable onPress={backFn}>
                 <BackIcon />
               </CustomPressable>
             )}

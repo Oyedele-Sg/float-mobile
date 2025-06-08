@@ -27,7 +27,7 @@ export default function TabLayout() {
             }}
         >
             <Tabs.Screen
-                name="(home)"
+                name="home"
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ color, focused }) => (
@@ -40,7 +40,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="(beneficiary)"
+                name="beneficiary"
                 options={{
                     title: 'Beneficiary',
                     tabBarIcon: ({ color, focused }) => (
@@ -54,7 +54,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="(account)"
+                name="account"
                 options={{
                     title: 'Account',
                     tabBarIcon: ({ color, focused }) => (

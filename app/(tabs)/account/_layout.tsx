@@ -8,7 +8,7 @@ export default function HomeLayout() {
         headerShadowVisible: false,
       }}
     >
-      <Stack.Screen name="beneficiaries" />
+      <Stack.Screen name="index" />
     </Stack>
   );
 }

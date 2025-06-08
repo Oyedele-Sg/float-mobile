@@ -1,6 +1,7 @@
 export const colors = {
     brandPrimary: '#DC180D',
     white: '#FFFFFF',
+    headertext: '#211F2A',
 
     // NEUTRAL
     neutral_50: "#BFC5DD",
@@ -13,6 +14,7 @@ export const colors = {
     gray_800: '#2C2435',
     gray_07: "#687882",
     gray_bg: "#F7F7F7",
+    gray_text: '#606060',
 
     // SECONDARY
     secondary_white: '#F4F4F4',
