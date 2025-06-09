@@ -7,7 +7,19 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-export const Beneficiary = ({countryCode, name, bank, onPress}: {countryCode: string, name: string, bank: string, onPress: ()=> void}) => {
+export const Beneficiary = ({
+  countryCode,
+  name,
+  bank,
+  account,
+  onPress
+}: { 
+    countryCode: string, 
+    name: string, 
+    bank: string, 
+    account: string, 
+    onPress: () => void
+  }) => {
   return (
     <CustomBox mb={18}>
       <CustomPressable
@@ -55,7 +67,7 @@ export const Beneficiary = ({countryCode, name, bank, onPress}: {countryCode: st
                   opacity: 0.5,
                 }}
               >
-                {bank}
+                {account} ({bank})
               </CustomText>
             </CustomBox>
           </CustomBox>
@@ -116,21 +128,8 @@ export default function BeneficiaryScreen() {
                 countryCode={item.foreign_payout_beneficiary.beneficiary_country}
                 name={item.foreign_payout_beneficiary.beneficiary_name}
                 bank={item.foreign_payout_beneficiary.beneficiary_bank_name}
+                account={item.foreign_payout_beneficiary.beneficiary_account_number}
                 onPress={() => {
-                  // setInternationalPayoutID({
-									// 	foreign_payout_beneficiary_id:
-									// 		item.foreign_payout_beneficiary_id,
-									// 	beneficiary_currency:
-									// 		item.foreign_payout_beneficiary.beneficiary_currency,
-									// 	beneficiary_country:
-									// 		item.foreign_payout_beneficiary.beneficiary_country,
-									// });
-									// selectUser({
-									// 	account_name:
-									// 		item.foreign_payout_beneficiary.beneficiary_name,
-									// 	username: item.foreign_payout_beneficiary.beneficiary_name,
-									// 	selfie_image: ''
-                  // });
                   router.push({
                     pathname: '/beneficiary/beneficiarydetails', params: {
                       foreign_payout_beneficiary_id: item.foreign_payout_beneficiary_id,

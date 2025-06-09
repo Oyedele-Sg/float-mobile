@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 
 import { Image } from 'react-native';
 import { TransactionReport } from 'src/services';
-import { CustomBox, CustomPressable, CustomText } from 'src/components';
+import { CustomBox, CustomPressable, CustomText, SkeletonPlaceholderItem } from 'src/components';
 import { ChevronRightIcon, ClockIcon } from '@assets/icons';
+import CountryFlag from 'react-native-country-flag';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useGetRecentTransactionsWithLimit } from '@/services/Home/homeServices';
 
 const sampleTransactionReports: TransactionReport[] = [
   {
@@ -148,12 +151,22 @@ type TransactionProps = {
 export const Transaction = ({
    amount, name, date, type, data, home,
 }: TransactionProps) => {
+  const router = useRouter();
+
 
   return (
     <CustomBox mb={18} key={data.created_at}>
       <CustomPressable
         onPress={() => {
           if (home) {
+            const { transaction_status, ...rest } = data;
+            router.push({
+              pathname: '/home/transactionreceipt',
+              params: {
+                ...rest,
+                transaction_status: JSON.stringify(transaction_status),
+              },
+            });
           }
         }}
       >
@@ -177,13 +190,12 @@ export const Transaction = ({
               height={24}
               borderRadius={24}
               mr={14}
-              
+              overflow='hidden'
               bg="gray_bg"
               alignItems="center"
               justifyContent="center"
             >
-              
-              {/* <UserIcon /> */}
+              {/* <CountryFlag isoCode={countryCode} size={24} /> */}
             </CustomBox>
             <CustomBox>
               <CustomText
@@ -244,6 +256,19 @@ type Props = {
 };
 
 export const RecentTransactions = () => {
+  const router = useRouter();
+
+  const {
+    data: transactionsData,
+    isLoading,
+    refetch
+  } = useGetRecentTransactionsWithLimit()
+
+  useFocusEffect(
+    React.useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   return (
     <CustomBox mb={32}>
@@ -258,29 +283,38 @@ export const RecentTransactions = () => {
         </CustomText>
         <CustomPressable
           onPress={() => {
+            router.push('/home/transactions');
           }}
         >
           <ChevronRightIcon />
         </CustomPressable>
       </CustomBox>
 
-      {/* <NoTransactions /> */}
+      {/* {(!transactionsData
+				|| transactionsData.transaction_reports?.length < 1) && <NoTransactions />}
 
-      <CustomBox>
-        {sampleTransactionReports.map((items) => (
-          <Transaction
-            key={items.account_user_id}
-            name={items.third_party_name}
-            amount={items.transaction_amount}
-            date={items.created_at}
-            type={items.transaction_type}
-            data={items}
-            home
-          />
-          
-        ))}
-        {/* ))} */}
+      {isLoading ? (
+        <CustomBox >
+          {new Array(4).fill(null).map((_, index) => (
+            <SkeletonPlaceholderItem key={index} height={80} />
+          ))}
+        </CustomBox>
+      ) : ( */}
+        <CustomBox>
+          {sampleTransactionReports.map((items) => (
+            <Transaction
+              key={items.account_user_id}
+              name={items.third_party_name}
+              amount={items.transaction_amount}
+              date={items.created_at}
+              type={items.transaction_type}
+              data={items}
+              home
+            />
+          ))}
       </CustomBox>
+      {/* )} */}
+      
     </CustomBox>
   );
 };

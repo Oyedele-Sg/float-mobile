@@ -14,6 +14,7 @@ import { InternatioanlInitialPayoutResponse } from '@/services';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { InternationalSendSummaryModal } from '@/beneficiary/InternationalSendSummary';
 import { Keyboard } from 'react-native';
+import { displayErrorMessage, displaySuccessMessage } from '@/lib/toast';
 
 export default function SendAmountcreen() {
   const router = useRouter()
@@ -68,6 +69,8 @@ export default function SendAmountcreen() {
       },
       onError: (data: any) => {
         console.log('ERROR', data);
+        // displaySuccessMessage('Payment Failed');
+        displayErrorMessage('Failed')
         router.push({ pathname: '/paymentmodals/failed', params: { errorMessage: data.message} });
         // reset()
       },
