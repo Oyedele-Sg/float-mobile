@@ -93,7 +93,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
                 style={{ width: '100%', ...style }}
                 disabled={loading || disabled}
             >
-                {(loading || disabled || variant === 'auth') ? (
+                {(loading || disabled || variant === 'auth' || variant === 'white') ? (
                     <Button
                         variant={buttonVariantStyle}
                         justifyContent="center"

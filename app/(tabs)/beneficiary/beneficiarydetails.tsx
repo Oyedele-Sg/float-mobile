@@ -29,9 +29,7 @@ export default function BeneficiaryScreen() {
 
 
   return (
-    <HomeLayoutWrapper header='Confirm Recipient Details' backBt backFn={() => {
-      router.replace('/beneficiary');
-    }}>
+    <HomeLayoutWrapper header='Confirm Recipient Details' backBt >
       <CustomBox py={20} flex={1} >
         <CustomBox
           flexDirection='row'

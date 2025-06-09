@@ -13,4 +13,8 @@ export const button = {
         backgroundColor: 'buttonDisabled',
         borderColor: 'buttonDisabled',
     },
+    white: {
+        backgroundColor: 'white',
+        borderColor: 'white',
+    },
 }

@@ -127,3 +127,23 @@ export interface ForeignPayoutBeneficiary {
 	created_at: string;
 	updated_at: string;
 }
+
+export interface InternatioanlInitialPayoutResponse {
+	account_user_id: string;
+	foreign_payout_beneficiary_id: string;
+	payout_id: string;
+	description: string;
+	reference: string;
+	amount: number;
+	fees: number;
+	status: string; 
+	payout_currency: string; 
+	exchange_rate: number;
+	payout_amount: number;
+	final_status: string;
+	charge: number;
+	payout_initiation_id: string;
+	created_at: string; // ISO 8601 date string
+	updated_at: string; // ISO 8601 date string
+	foreign_payout_beneficiary: ForeignPayoutBeneficiary;
+}

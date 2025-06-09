@@ -2,6 +2,7 @@ export const colors = {
     brandPrimary: '#DC180D',
     white: '#FFFFFF',
     headertext: '#211F2A',
+    reg_bg: '#941009',
 
     // NEUTRAL
     neutral_50: "#BFC5DD",
@@ -30,4 +31,5 @@ export const colors = {
     buttonDisabled: '#FDA29B',
     authButtonBackground: '#090707',
     darkText: '#090707',
+    blueText: '#2341D8',
 }

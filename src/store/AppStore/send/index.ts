@@ -25,7 +25,6 @@ SendSlice
       ...state.send,
       transaction_amount: payload.transaction_amount,
       transactionAmountWithFees: payload.transactionAmountWithFees,
-      transaction_remarks: payload.transaction_remarks,
       fees: payload.fees,
     },
   })),

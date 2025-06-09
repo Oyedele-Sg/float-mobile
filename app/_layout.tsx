@@ -22,15 +22,22 @@ export default function RootLayout() {
                 <QueryClientProvider client={queryClient}>
                     <NotifierWrapper>
                         <BottomSheetModalProvider>
-                                <Stack
-                                    screenOptions={{
+                            <Stack
+                                screenOptions={{
+                                    headerShown: false,
+                                    headerShadowVisible: false,
+                                }}
+                            >
+                                <Stack.Screen name="(auth)" />
+                                <Stack.Screen name="(tabs)" />
+                                <Stack.Screen
+                                    name="paymentmodals"
+                                    options={{
+                                        presentation: 'modal',
                                         headerShown: false,
-                                        headerShadowVisible: false,
                                     }}
-                                >
-                                    <Stack.Screen name="(auth)" />
-                                    <Stack.Screen name="(tabs)" />
-                                </Stack>
+                                />
+                            </Stack>
                         </BottomSheetModalProvider>
                     </NotifierWrapper>
                 </QueryClientProvider>
