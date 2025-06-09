@@ -7,6 +7,8 @@ import { ChevronRightIcon, ClockIcon } from '@assets/icons';
 import CountryFlag from 'react-native-country-flag';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useGetRecentTransactionsWithLimit } from '@/services/Home/homeServices';
+import { formatDateTime } from '@/lib/formatDateTime';
+import { convertUsingCurrency } from '@/lib/dateCoverter';
 
 const sampleTransactionReports: TransactionReport[] = [
   {
@@ -195,7 +197,7 @@ export const Transaction = ({
               alignItems="center"
               justifyContent="center"
             >
-              {/* <CountryFlag isoCode={countryCode} size={24} /> */}
+              <CountryFlag isoCode={data.beneficiary_country} size={24} />
             </CustomBox>
             <CustomBox>
               <CustomText
@@ -212,7 +214,7 @@ export const Transaction = ({
                   opacity: 0.5,
                 }}
               >
-                {'Today, 5:20pm'}
+                {formatDateTime(convertUsingCurrency(data.transaction_date_time as string, ''))}
               </CustomText>
             </CustomBox>
           </CustomBox>
@@ -290,7 +292,7 @@ export const RecentTransactions = () => {
         </CustomPressable>
       </CustomBox>
 
-      {/* {(!transactionsData
+      {(!transactionsData
 				|| transactionsData.transaction_reports?.length < 1) && <NoTransactions />}
 
       {isLoading ? (
@@ -299,21 +301,21 @@ export const RecentTransactions = () => {
             <SkeletonPlaceholderItem key={index} height={80} />
           ))}
         </CustomBox>
-      ) : ( */}
+      ) : (
         <CustomBox>
-          {sampleTransactionReports.map((items) => (
+          {transactionsData?.transaction_reports.map((items) => (
             <Transaction
-              key={items.account_user_id}
+              key={items.transaction_report_id}
               name={items.third_party_name}
               amount={items.transaction_amount}
-              date={items.created_at}
+              date={items.transaction_date_time}
               type={items.transaction_type}
               data={items}
               home
             />
           ))}
       </CustomBox>
-      {/* )} */}
+      )}
       
     </CustomBox>
   );

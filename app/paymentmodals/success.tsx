@@ -16,7 +16,7 @@ export default function SuccessScreen() {
 
   return (
     <HomeLayoutWrapper backgroundColor='#941009'>
-      <CustomBox flex={1} height={'100%'} justifyContent='space-between' borderWidth={1} pt={70} >
+      <CustomBox flex={1} height={'100%'} justifyContent='space-between' pt={70} >
         
         <CustomBox justifyContent='center' alignItems='center' mb={200}>
 
