@@ -13,7 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import { FlatList } from 'react-native-gesture-handler';
 import { convertField } from '@/lib/convertField';
 import { createInternationalBeneficiaryApi, useGetInternationalFormFieilds } from '@/services/Home/homeServices';
-import { AddBeneficiaryModal } from '@/home/AddBeneficiaryModal';
+import { AddBeneficiaryModal } from '@/beneficiary/AddBeneficiaryModal';
 import { validateValues } from '@/lib/validateValues';
 
 type banksType = {

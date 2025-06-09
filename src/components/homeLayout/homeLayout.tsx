@@ -14,12 +14,13 @@ type Props = {
   backBt?: boolean
   backFn?: ()=> void
   description?: string
+  backgroundColor?: string
   scroll?: boolean
   preset ?: 'fixed' | 'scroll' | 'auto'
   children: ReactNode
 }
 
-export const HomeLayoutWrapper = ({ backBt, backFn, children, header, description, title, scroll = true, preset }: Props) => {
+export const HomeLayoutWrapper = ({ backBt, backFn, children, header, description, backgroundColor, title, scroll = true, preset }: Props) => {
   const router = useRouter()
   
   // Detect if children include a VirtualizedList (FlatList or SectionList)
@@ -39,8 +40,8 @@ export const HomeLayoutWrapper = ({ backBt, backFn, children, header, descriptio
 
   const screenPreset = scroll && !containsVirtualizedList ? 'auto' : 'fixed'
   return (
-    <Screen preset={preset || screenPreset} safeAreaEdges={['top']}>
-      <CustomBox flex={1} paddingHorizontal={20}>
+    <Screen preset={preset || screenPreset} safeAreaEdges={['top']} backgroundColor={backgroundColor}>
+      <CustomBox flex={1} paddingHorizontal={20} >
         {(backBt || header) && (
           <CustomBox
             alignItems="center"

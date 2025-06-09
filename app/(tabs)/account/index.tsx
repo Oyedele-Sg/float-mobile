@@ -9,7 +9,7 @@ export default function AccountScreen() {
     const $containerInsets = useSafeAreaInsetsStyle(['top', "bottom"])
 
     return (
-        <HomeLayoutWrapper header='Hello'  backBt>
+        <HomeLayoutWrapper header='Hello'>
           <CustomBox>
             <CustomText variant='T2434700' color='neutral_n800'>Add Bank Card</CustomText>
             <CustomText variant='T1422400' color='gray_950'>Enter card details you’ll use for transactions</CustomText>
