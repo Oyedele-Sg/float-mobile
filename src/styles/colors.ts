@@ -19,6 +19,7 @@ export const colors = {
 
     // SECONDARY
     secondary_white: '#F4F4F4',
+    secondary_red: '#89120B',
 
     // ACCENT
     accent_color: '#3C9AFB',

@@ -1,6 +1,6 @@
 import { QueryFunctionContext, useInfiniteQuery, useQuery, type InfiniteData } from '@tanstack/react-query';
 import { AuthAxios } from 'src/lib/axios';
-import { CountryFormDataInterface, InternatioanlInitialPayoutResponse, InternationalBeneficiariesResponse, InternationalBeneficiary, InternationalSendDataInterface, ServerResponse } from './home.types';
+import { CountryFormDataInterface, InternatioanlInitialPayoutResponse, InternationalBeneficiariesResponse, InternationalBeneficiary, InternationalSendDataInterface, ServerResponse, TransactionReportResponse } from './home.types';
 
 
 export async function GetInternationalFormFieilds(): Promise<CountryFormDataInterface> {
@@ -51,6 +51,52 @@ export function useGetInternationalBeneficiariesPaginated() {
       return undefined;
     },
   });
+}
+
+
+export async function GetRecentTransactionsPaginated({ pageParam = 1 }): Promise<TransactionReportResponse> {
+  const response = await AuthAxios.get(
+    `/transactions/transaction-reports/?page=${pageParam}&limit=20`
+  );
+  return response.data;
+}
+
+export function useGetRecentTransactionsPaginated() {
+  return useInfiniteQuery<
+  TransactionReportResponse,  // TQueryFnData: single page data
+  Error,
+  { pages: TransactionReportResponse[]; pageParams: number[] },  // TData: aggregated pages and params
+  string[],  // queryKey type
+  number     // pageParam type
+>({
+    queryKey: ['recentTransactions'],
+    queryFn: ({ pageParam = 1 }: { pageParam?: number }) => GetRecentTransactionsPaginated({ pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage: TransactionReportResponse) => {
+      const { current_page, total_pages } = lastPage.pagination_details;
+      if (current_page < total_pages) {
+        return current_page + 1;
+      }
+      return undefined;
+    },
+  });
+}
+
+export async function GetRecentTransactions(): Promise<TransactionReportResponse> {
+  const response = await AuthAxios.get(
+    `/transactions/transaction-reports/?limit=5`
+  );
+  return response.data;
+}
+
+export function useGetRecentTransactionsWithLimit() {
+  return useQuery({
+		queryKey: [
+			'recentTransactionsWithLimit'
+		],
+		queryFn: GetRecentTransactions,
+		refetchOnMount: true
+	});
 }
 
 

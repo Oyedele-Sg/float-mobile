@@ -1,12 +1,5 @@
 export type TransactionReportResponse = {
-  pagination_details: {
-    total_results: number;
-    current_results_on_page: number;
-    current_page: number;
-    next_page: number;
-    previous_page: number;
-    total_pages: number;
-  };
+  pagination_details: PaginationDetails;
   transaction_reports: TransactionReport[];
 };
 
