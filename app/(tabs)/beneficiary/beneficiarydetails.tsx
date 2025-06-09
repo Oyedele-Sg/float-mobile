@@ -4,7 +4,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useGetInternationalBeneficiariesPaginated } from '@/services/Home/homeServices';
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store/AppStore';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import lookup from 'country-code-lookup';
 
 export default function BeneficiaryScreen() {
   const router = useRouter()
@@ -27,6 +28,7 @@ export default function BeneficiaryScreen() {
     beneficiary_account_number: string,
   }>();
 
+const country = lookup.byIso(beneficiary_country);
 
   return (
     <HomeLayoutWrapper header='Confirm Recipient Details' backBt >
@@ -46,7 +48,8 @@ export default function BeneficiaryScreen() {
             Payment destination
           </CustomText>
           <CustomText textAlign='right'  variant='T1422600' color='headertext'>
-            {beneficiary_country}
+            {country?.country}
+            {/* {beneficiary_country} */}
           </CustomText>
         </CustomBox>
 

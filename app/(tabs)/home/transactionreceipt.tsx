@@ -8,6 +8,9 @@ import { captureRef } from 'react-native-view-shot';
 import Share from 'react-native-share';
 import { View } from 'react-native';
 import { displaySuccessMessage } from '@/lib/toast';
+import lookup from 'country-code-lookup';
+import { formatDateTime } from '@/lib/formatDateTime';
+import { convertUsingCurrency } from '@/lib/dateCoverter';
 
 interface TransactionReportParams {
   transaction_amount?: number;
@@ -50,17 +53,19 @@ export default function TransactionreceiptScreen() {
       console.log('Error capturing view:', err);
 			//
 		}
-	};
+  };
+  
+  const country = lookup.byIso(beneficiary_country || 'USD');
 
   return (
-    <HomeLayoutWrapper header='Confirm Recipient Details' backBt >
+    <HomeLayoutWrapper header='Transaction Receipt' backBt >
       <CustomBox collapsable={false} ref={viewRef}   py={20} px={5} flex={1} >
         <CustomBox mb={20}>
           <CustomText variant='T2434700' color='secondary_red'>
             {getSymbolFromCurrency(currency as string)} {formatNumbertoTwo(transaction_amount!)}
           </CustomText>
           <CustomText variant='T1422500' color='gray_text'>
-            Today, 5:20pm{transaction_date_time}
+            {formatDateTime(convertUsingCurrency(transaction_date_time as string, ''))}
           </CustomText>
         </CustomBox>
 
@@ -79,7 +84,8 @@ export default function TransactionreceiptScreen() {
             Payment destination
           </CustomText>
           <CustomText textAlign='right'  variant='T1422600' color='headertext'>
-            {beneficiary_country}
+            {country?.country}
+            {/* {beneficiary_country} */}
           </CustomText>
         </CustomBox>
 
