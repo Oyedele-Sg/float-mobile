@@ -1,15 +1,15 @@
 import {CustomBox, CustomButton, CustomInput, CustomPressable, CustomText} from "../../src/components";
-import { AuthLayoutWrapper } from "../../src/components";
+import { AuthLayoutWrapper } from "@/components";
 import {Formik} from "formik";
 import {Link, useRouter} from "expo-router";
-import { Keyboard, Pressable } from 'react-native';
-import { validateValues } from '../../src/lib/validateValues';
-import { isValidEmail } from '../../src/lib/isValidEmail';
-import { MMKV } from '../../src/lib/mmkv';
-import { passwordHash } from '../../src/lib/encryptPassword';
+import { Keyboard } from 'react-native';
+import { validateValues } from '@lib/validateValues';
+import { isValidEmail } from '@lib/isValidEmail';
+import { MMKV } from '@lib/mmkv';
+import { passwordHash } from '@lib/encryptPassword';
 import { useMutation } from '@tanstack/react-query';
-import { LoginApi, GetUsersDetails, RefreshOTP } from '../../src/services/Auth/AuthServices'
-import { useAppStore } from '../../src/store/AppStore';
+import { LoginApi, GetUsersDetails, RefreshOTP } from '@services/Auth/AuthServices'
+import { useAppStore } from '@store/AppStore';
 
 export default function LoginScreen() {
     const router = useRouter()
@@ -23,11 +23,10 @@ export default function LoginScreen() {
             }
         }
 	});
-    
+
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
 		onSuccess: (data) => {
-            console.log('UESER DATA', JSON.stringify(data, null, 2));
             userLogin(data);
             router.push('/addBank')
 		},
@@ -41,7 +40,6 @@ export default function LoginScreen() {
     const useLogin = useMutation({
         mutationFn: LoginApi,
         onSuccess: (data, variables) => {
-              console.log('LOGIN DATA', data);
             if (data.access_token) {
                 authData.saveToken(data);
                 MMKV.setMap('TokenData', data);
@@ -49,11 +47,9 @@ export default function LoginScreen() {
             }
           },
         onError: (error: any, variables) => {
-            console.log('Login ERROR', error, error.message[0]?.msg || error.message);
             const errorMsg = error.message[0]?.msg || error.message;
             if (errorMsg === 'Email not verified, please verify your email') {
 				useRefreshOTP.mutate({ email: variables.email });
-				
 			}
           }
       });

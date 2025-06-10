@@ -22,7 +22,7 @@ type Props = {
 
 export const HomeLayoutWrapper = ({ backBt, backFn, children, header, description, backgroundColor, title, scroll = true, preset }: Props) => {
   const router = useRouter()
-  
+
   // Detect if children include a VirtualizedList (FlatList or SectionList)
   const containsVirtualizedList = useMemo(() => {
     const check = (node: ReactNode): boolean => {
@@ -39,6 +39,7 @@ export const HomeLayoutWrapper = ({ backBt, backFn, children, header, descriptio
   }, [children])
 
   const screenPreset = scroll && !containsVirtualizedList ? 'auto' : 'fixed'
+
   return (
     <Screen preset={preset || screenPreset} safeAreaEdges={['top']} backgroundColor={backgroundColor}>
       <CustomBox flex={1} paddingHorizontal={20} >
@@ -81,7 +82,7 @@ export const HomeLayoutWrapper = ({ backBt, backFn, children, header, descriptio
             <CustomText variant='T1422400' color='gray_950'>{description}</CustomText>
           </CustomBox>
         )}
-        
+
 
         <CustomBox flex={1}>{children}</CustomBox>
       </CustomBox>

@@ -1,5 +1,5 @@
 import {CustomBox, CustomButton, CustomInput, CustomText, Screen} from "../../src/components";
-import {Form, Formik} from "formik";
+import {Formik} from "formik";
 import { useRouter } from "expo-router";
 
 export default function AddBankScreen() {

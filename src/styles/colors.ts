@@ -4,6 +4,8 @@ export const colors = {
     headertext: '#211F2A',
     reg_bg: '#941009',
 
+    primary_100: '#5D41D0',
+
     // NEUTRAL
     neutral_50: "#BFC5DD",
     neutral_n400: "#94A3B8",

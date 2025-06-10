@@ -1,10 +1,9 @@
-import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/components";
-import { AuthLayoutWrapper } from "../../src/components";
+import {CustomBox, CustomButton, CustomInput, CustomText} from "@/components";
+import { AuthLayoutWrapper } from "@/components";
 import { Formik } from "formik";
 import { useRouter } from "expo-router";
 import { useMutation } from '@tanstack/react-query';
 import { ForgotPasswordApi } from '@/services/Auth/AuthServices';
-import { validateValues } from '@/lib/validateValues';
 import { isValidEmail } from '@/lib/isValidEmail';
 
 const Description = () => {

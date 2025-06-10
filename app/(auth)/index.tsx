@@ -1,5 +1,5 @@
-import {CustomBox, CustomButton, CustomText, Screen} from "../../src/components";
-import { useSafeAreaInsetsStyle } from "../../src/utils/useSafeAreaInsetStyle";
+import {CustomBox, CustomButton, CustomText, Screen} from "@/components";
+import { useSafeAreaInsetsStyle } from "@utils/useSafeAreaInsetStyle";
 import {Dimensions, ImageBackground} from "react-native";
 import {useRouter} from "expo-router";
 

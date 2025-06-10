@@ -181,7 +181,7 @@ export const Transaction = ({
           borderRadius={20}
           borderColor="gray_bg"
           shadowOffset= {{ width: 0, height: 0 }}
-          shadowOpacity= {0.05}
+          shadowOpacity= {0.03}
           shadowRadius= {2}
           elevation= {1}
           shadowColor='gray_950'
@@ -219,8 +219,7 @@ export const Transaction = ({
             </CustomBox>
           </CustomBox>
           <CustomBox flexDirection='row'>
-            <CustomText
-              >
+            <CustomText color='primary_100' mr={4}>
               $
               {amount}
             </CustomText>
@@ -316,7 +315,7 @@ export const RecentTransactions = () => {
           ))}
       </CustomBox>
       )}
-      
+
     </CustomBox>
   );
 };

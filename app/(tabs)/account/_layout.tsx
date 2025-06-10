@@ -9,6 +9,9 @@ export default function HomeLayout() {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="accountsettings" />
+      <Stack.Screen name="bankcards" />
+      <Stack.Screen name="changepassword" />
     </Stack>
   );
 }

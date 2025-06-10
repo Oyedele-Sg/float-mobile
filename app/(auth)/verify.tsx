@@ -1,8 +1,8 @@
-import {CustomBox, CustomButton, CustomInput, CustomText} from "../../src/components";
-import { AuthLayoutWrapper } from "../../src/components";
+import {CustomBox, CustomButton, CustomInput, CustomText} from "@/components";
+import { AuthLayoutWrapper } from "@/components";
 import { Formik } from "formik";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { MMKV } from "../../src/lib/mmkv";
+import { MMKV } from "@lib/mmkv";
 import {useMutation} from "@tanstack/react-query";
 import { Keyboard } from 'react-native';
 import { EmailVerifyOTP, GetUsersDetails } from '@/services/Auth/AuthServices';
@@ -22,11 +22,10 @@ export default function VerifyScreen() {
     const router = useRouter()
     const { authData, userLogin } = useAppStore();
     const { type } = useLocalSearchParams<{ type: 'signup' | 'forgotpassword' }>();
-    
+
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
       onSuccess: (data) => {
-            console.log('UESER DATA', JSON.stringify(data, null, 2));
             userLogin(data);
             router.push('/successRegistration')
       },
@@ -72,7 +71,7 @@ export default function VerifyScreen() {
                         } else if (type === 'forgotpassword') {
                             router.push({ pathname: '/createNewPassword', params: { code: values.code} });
                         }
-                        
+
                     }}
                 >
                     {({ handleSubmit }) => (
