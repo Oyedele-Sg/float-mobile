@@ -9,6 +9,7 @@ import { MMKV } from "../../src/lib/mmkv";
 import { validateValues } from '../../src/lib/validateValues';
 import { isValidEmail } from '../../src/lib/isValidEmail';
 import { passwordHash } from '../../src/lib/encryptPassword';
+import { displaySuccessMessage } from '@/lib/toast';
 
 
 export default function RegisterScreen() {
@@ -16,6 +17,7 @@ export default function RegisterScreen() {
     const useSignupApi = useMutation({
         mutationFn: SignupApi,
         onSuccess: () => {
+            displaySuccessMessage('Registration successful');
             router.push({ pathname: '/verify', params: { type: 'signup'} });
         },
         onSettled: () => {

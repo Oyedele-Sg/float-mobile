@@ -7,6 +7,8 @@ import {useMutation} from "@tanstack/react-query";
 import { Keyboard } from 'react-native';
 import { EmailVerifyOTP, GetUsersDetails } from '@/services/Auth/AuthServices';
 import { useAppStore } from '@/store/AppStore';
+import { displaySuccessMessage } from '@/lib/toast';
+import { validateValues } from '@/lib/validateValues';
 
 const Description = async () => {
     const email = await MMKV.getItem("email");
@@ -26,7 +28,8 @@ export default function VerifyScreen() {
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
       onSuccess: (data) => {
-            userLogin(data);
+          userLogin(data);
+          displaySuccessMessage('Account verified successfully');
             router.push('/successRegistration')
       },
       onError: () => {
@@ -68,13 +71,13 @@ export default function VerifyScreen() {
                         Keyboard.dismiss()
                         if (type === 'signup') {
                             useVerifyOtp.mutate({ otp: values.code, is_signup: true });
-                        } else if (type === 'forgotpassword') {
+                        } else if (type === 'forgotpassword' && values.code.length === 4) {
                             router.push({ pathname: '/createNewPassword', params: { code: values.code} });
                         }
 
                     }}
                 >
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit, values }) => (
                         <CustomBox gap={12}>
                             <CustomInput maxLength={4} label='Enter code' name='code' placeholder='Enter 4-Digit Code' />
                             <CustomBox alignItems='center' gap={8}>
@@ -82,7 +85,7 @@ export default function VerifyScreen() {
                                 <CustomText variant='T1422400' color='neutral_n600'>Resend code in 00:59</CustomText>
                             </CustomBox>
                             <CustomBox mt={10}>
-                                <CustomButton onPress={handleSubmit} loading={useVerifyOtp.isPending} label='Verify Account' />
+                                <CustomButton onPress={handleSubmit} disabled={!validateValues(values)} loading={useVerifyOtp.isPending} label='Verify Account' />
                             </CustomBox>
                         </CustomBox>
                     )}

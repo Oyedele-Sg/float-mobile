@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ResetPasswordApi } from '@/services/Auth/AuthServices';
 import { passwordHash } from '@/lib/encryptPassword';
 import { validateValues } from '@/lib/validateValues';
+import { displaySuccessMessage } from '@/lib/toast';
 
 const Description = () => {
     return (
@@ -26,6 +27,7 @@ export default function CreateNewPasswordScreen() {
         onSuccess: (data) => {
             if (data) {
                 router.push('/login')
+                displaySuccessMessage('Password reset successful, please login with your new password');
             }
           },
         onError: (data: any) => {

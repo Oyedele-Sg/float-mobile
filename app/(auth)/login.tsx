@@ -10,6 +10,7 @@ import { passwordHash } from '@lib/encryptPassword';
 import { useMutation } from '@tanstack/react-query';
 import { LoginApi, GetUsersDetails, RefreshOTP } from '@services/Auth/AuthServices'
 import { useAppStore } from '@store/AppStore';
+import { displaySuccessMessage } from '@/lib/toast';
 
 export default function LoginScreen() {
     const router = useRouter()
@@ -26,7 +27,8 @@ export default function LoginScreen() {
 
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
-		onSuccess: (data) => {
+        onSuccess: (data) => {
+            displaySuccessMessage('Login successful');
             userLogin(data);
             router.push('/addBank')
 		},
