@@ -4,6 +4,7 @@ import DeviceInfo from 'react-native-device-info';
 import NetInfo from '@react-native-community/netinfo';
 import { fetchPublicIP } from './fetchIPAddress';
 import {  encryptData, generateNonce } from './headerEncryption';
+import { displayErrorMessage } from './toast';
 
 export type DeviceInfoData = {
     device_id: string | undefined;
@@ -56,6 +57,7 @@ const handleError = async (error: any) => {
         const { data: result } = error.response;
         // eslint-disable-next-line no-param-reassign
         error.response.data = { data: result };
+        displayErrorMessage(`${error.response.data.data.message}`);
     }
 
     return Promise.reject(error.response?.data?.data || { message: error.message });

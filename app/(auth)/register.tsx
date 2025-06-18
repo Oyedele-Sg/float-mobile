@@ -17,11 +17,11 @@ export default function RegisterScreen() {
     const useSignupApi = useMutation({
         mutationFn: SignupApi,
         onSuccess: () => {
-            displaySuccessMessage('Registration successful');
+            displaySuccessMessage('Registration Successful');
             router.push({ pathname: '/verify', params: { type: 'signup'} });
         },
-        onSettled: () => {
-            // router.push('/verify')
+        onError: (error) => {
+            console.log(error);
         }
     })
 

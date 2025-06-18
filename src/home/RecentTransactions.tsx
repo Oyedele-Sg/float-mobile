@@ -292,7 +292,7 @@ export const RecentTransactions = () => {
       </CustomBox>
 
       {(!transactionsData
-				|| transactionsData.transaction_reports?.length < 1) && <NoTransactions />}
+				|| transactionsData.transaction_reports?.length < 1) && !isLoading && <NoTransactions />}
 
       {isLoading ? (
         <CustomBox >

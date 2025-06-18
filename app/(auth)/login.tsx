@@ -10,7 +10,7 @@ import { passwordHash } from '@lib/encryptPassword';
 import { useMutation } from '@tanstack/react-query';
 import { LoginApi, GetUsersDetails, RefreshOTP } from '@services/Auth/AuthServices'
 import { useAppStore } from '@store/AppStore';
-import { displaySuccessMessage } from '@/lib/toast';
+import { displayErrorMessage, displaySuccessMessage } from '@/lib/toast';
 
 export default function LoginScreen() {
     const router = useRouter()
@@ -28,7 +28,7 @@ export default function LoginScreen() {
     const useGetUsers = useMutation({
         mutationFn: GetUsersDetails,
         onSuccess: (data) => {
-            displaySuccessMessage('Login successful');
+            displaySuccessMessage('Login Successful');
             userLogin(data);
             router.push('/addBank')
 		},
@@ -52,7 +52,9 @@ export default function LoginScreen() {
             const errorMsg = error.message[0]?.msg || error.message;
             if (errorMsg === 'Email not verified, please verify your email') {
 				useRefreshOTP.mutate({ email: variables.email });
-			}
+            }
+            // displayErrorMessage(errorMsg)
+
           }
       });
 

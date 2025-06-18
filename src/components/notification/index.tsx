@@ -24,7 +24,7 @@ export const CustomNotification: React.FC<CustomNotificationProps> = ({
       break;
     case 'success':
       backgroundColor = '#FFFFFF'; // Green
-      IconComponent = <RequestSuccessSVG width={30} height={30} />;
+      IconComponent = <RequestSuccessSVG width={35} height={35} />;
       break;
     case 'info':
       backgroundColor = '#FFFFFF'; // Blue
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Monzo Sans Text',
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#344054',
-    fontWeight: '400',
+    fontWeight: '500',
     lineHeight: 20,
     fontFamily: 'Monzo Sans Text',
   },
   icon: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   body: {
     width: '85%',

@@ -43,7 +43,7 @@ export default function VerifyScreen() {
               if (data.success) {
                   if (data.data?.access_token && type === 'signup' ) {
                     authData.saveToken(data.data);
-                    MMKV.setItem('TokenData', data.data.access_token);
+                    MMKV.setMap('TokenData', data.data);
                     useGetUsers.mutate()
                   }
                   console.log('OTPDATA', data);
@@ -85,7 +85,7 @@ export default function VerifyScreen() {
                                 <CustomText variant='T1422400' color='neutral_n600'>Resend code in 00:59</CustomText>
                             </CustomBox>
                             <CustomBox mt={10}>
-                                <CustomButton onPress={handleSubmit} disabled={!validateValues(values)} loading={useVerifyOtp.isPending} label='Verify Account' />
+                                <CustomButton onPress={handleSubmit} disabled={!validateValues(values)} loading={useVerifyOtp.isPending || useGetUsers.isPending} label='Verify Account' />
                             </CustomBox>
                         </CustomBox>
                     )}

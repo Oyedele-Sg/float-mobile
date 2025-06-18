@@ -21,7 +21,7 @@ export default function SuccessRegistrationScreen() {
                 <CustomText variant='T1624600' mt={22} color='neutral_n800'>Your journey begins here!</CustomText>
                 <CustomText variant='T1624400' color='neutral_n800' mt={4}>Explore features and start transacting </CustomText>
                 <CustomBox width="100%" mt={22}>
-                    <CustomButton onPress={() => { router.push('/dashboard') }} label='Get Started' />
+                    <CustomButton onPress={() => { router.push('/addBank') }} label='Get Started' />
                 </CustomBox>
             </CustomBox>
         </Screen>
