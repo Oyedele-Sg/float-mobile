@@ -18,9 +18,9 @@ export default function LoginScreen() {
 
     const useRefreshOTP = useMutation({
 		mutationFn: RefreshOTP,
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
             if (data.success) {
-                router.push('/verify')
+                router.push({ pathname: '/verify', params: { type: 'forgotpassword', email: variables.email } })
             }
         }
 	});

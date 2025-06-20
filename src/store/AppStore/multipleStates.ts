@@ -53,32 +53,32 @@ export const saveUserDetails = (
 
   const pickedUserData = pickUserData(data);
 
-  // const newState: Partial<AppStore> = {
-  //   userData: {
-  //     ...currentState.userData,
-  //     ...pickedUserData,
-  //   },
-  //   authData: {
-  //     ...currentState.authData,
-  //     isLoggedIn: true,
-  //   },
-  // };
+  const newState: Partial<AppStore> = {
+    userData: {
+      ...currentState.userData,
+      ...pickedUserData,
+    },
+    authData: {
+      ...currentState.authData,
+      isLoggedIn: true,
+    },
+  };
 };
 
 export const userLogout =	(set: (fn: (state: AppStore) => void) => void, get: () => AppStore) => () => {
   const currentState = get();
 
-  // const newState: Partial<AppStore> = {
-  //   authData: {
-  //     ...currentState.authData,
-  //     isLoggedIn: false,
-  //     token: null,
-  //   }
-  // };
+  const newState: Partial<AppStore> = {
+    authData: {
+      ...currentState.authData,
+      isLoggedIn: false,
+      token: null,
+    }
+  };
 
-  // set(() => ({
-  //   ...currentState,
-  //   ...newState,
-  // }));
+  set(() => ({
+    ...currentState,
+    ...newState,
+  }));
 };
 

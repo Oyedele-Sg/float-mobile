@@ -18,7 +18,9 @@ export default function ChangePasswordScreen() {
                         email: email || '',
                         phone_number: phone_number || '',
                     }}
-                    onSubmit={() => {}}
+                    onSubmit={() => {
+                        
+                    }}
                 >
                     {({ handleSubmit }) => (
                         <CustomBox mt={25}>

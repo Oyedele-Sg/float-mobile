@@ -35,4 +35,6 @@ export const colors = {
     authButtonBackground: '#090707',
     darkText: '#090707',
     blueText: '#2341D8',
+    tetiaryText: '#475467',
+    secondaryBordery: '#D0D5DD',
 }

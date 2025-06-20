@@ -14,7 +14,7 @@ import { InternatioanlInitialPayoutResponse } from '@/services';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { InternationalSendSummaryModal } from '@/beneficiary/InternationalSendSummary';
 import { Keyboard } from 'react-native';
-import { displayErrorMessage, displaySuccessMessage } from '@/lib/toast';
+import { displayErrorMessage, displayInfoMessage, displaySuccessMessage } from '@/lib/toast';
 
 export default function SendAmountcreen() {
   const router = useRouter()
@@ -109,11 +109,9 @@ export default function SendAmountcreen() {
 
   useEffect(() => {
     if (timeLeft <= 1) {
-      // displayInfoMessage(
-      //   'Wait Time Elasped',
-      //   'Please Initiate Another Transaction',
-      //   1200,
-      // );
+      displayErrorMessage(
+        'Wait Time Elasped: Please Initiate Another Transaction'
+      );
       interPayoutSummaryModalDismiss();
     }
     const intervalId = setInterval(() => {
@@ -154,10 +152,9 @@ export default function SendAmountcreen() {
            console.log('value', amount);
             console.log('value 2', values.amount);
             if (Number(amount) < remittanceAmount) {
-              // displayErrorMessage(
-              //   'Invalid Amount',
-              //   "Amount can't be less than Minimum Remittance Amount",
-              // );
+              displayErrorMessage(
+                "Amount can't be less than Minimum Remittance Amount",
+              );
               return;
             }
             if (foreign_payout_beneficiary_id) {

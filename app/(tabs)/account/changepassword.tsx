@@ -1,21 +1,34 @@
 import {CustomBox, CustomButton, CustomInput, CustomText, HomeLayoutWrapper, Screen} from "@/components";
 import {Formik} from "formik";
 import { useRouter } from "expo-router";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useMutation} from "@tanstack/react-query";
-import {ForgotPasswordApi, ResetPasswordApi} from "@services/Auth/AuthServices";
+import {ForgotPasswordApi, RefreshOTP, ResetPasswordApi} from "@services/Auth/AuthServices";
 import {useAppStore} from "@store/AppStore";
 import {useShallow} from "zustand/shallow";
+import { displaySuccessMessage } from '@/lib/toast';
+import { passwordHash } from '@/lib/encryptPassword';
 
 export default function ChangePasswordScreen() {
     const router = useRouter()
     const { email } = useAppStore(useShallow((state) => state.userData));
     const [otpSent, setOtpSent] = useState<boolean>(false)
+
+     const useRefreshOTP = useMutation({
+        mutationFn: RefreshOTP,
+        onSuccess: (data) => {
+            if (data.success) {
+                displaySuccessMessage('Verification code sent')
+            }
+        }
+     });
+    
     const useForgetPasswordApi = useMutation({
         mutationFn: ForgotPasswordApi,
         onSuccess: (data) => {
             if (data.success) {
                 setOtpSent(true)
+                displaySuccessMessage('OTP sent to your mail')
             }
         },
         onError: (data: any) => {
@@ -26,12 +39,14 @@ export default function ChangePasswordScreen() {
         mutationFn: ResetPasswordApi,
         onSuccess: (data) => {
             if (data) {
+                displaySuccessMessage('Password changed successfully')
                 router.push('/account')
             }
         },
         onError: (data: any) => {
         }
     });
+
 
     return (
         <HomeLayoutWrapper header='Change Password' backBt backFn={() => {
@@ -54,7 +69,7 @@ export default function ChangePasswordScreen() {
                         } else {
                             useResetPasswordApi.mutate({
                                otp: values.otp,
-                               password: values.newPassword,
+                               password: passwordHash(values.newPassword),
                             })
                         }
                     }}
@@ -64,13 +79,15 @@ export default function ChangePasswordScreen() {
                             {otpSent
                                 ? <CustomBox gap={12}>
                                     <CustomBox>
-                                        <CustomText variant='T1422400' color='neutral_n800'>Code has been send to your email</CustomText>
+                                        <CustomText variant='T1422400' color='neutral_n800'>Code has been sent to your email</CustomText>
                                     </CustomBox>
                                     <CustomInput label='Enter Code' name="otp" placeholder='Enter 4-Digit Code' />
                                     <CustomBox alignItems='center' gap={8}>
                                         <CustomText variant='T1422400' color='neutral_n600'>
                                             Didn't Receive Code?
-                                            <CustomText onPress={() => {}} variant='T1422600' color='neutral_n400'>
+                                            <CustomText onPress={() => {
+                                                useRefreshOTP.mutate({email});
+                                            }} variant='T1422600' color='neutral_n400'>
                                                 {" "}Resend Code
                                             </CustomText>
                                         </CustomText>

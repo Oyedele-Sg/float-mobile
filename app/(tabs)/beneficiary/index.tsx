@@ -2,7 +2,7 @@ import {CustomBox, CustomPressable, CustomText, HomeLayoutWrapper, SkeletonPlace
 import CountryFlag from 'react-native-country-flag';
 import { useRouter } from "expo-router";
 import { useGetInternationalBeneficiariesPaginated } from '@/services/Home/homeServices';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -80,10 +80,11 @@ export const Beneficiary = ({
 
 export default function BeneficiaryScreen() {
   const router = useRouter()
+  const [search, setSearch] = useState<string>('');
+
   const { data, isLoading, fetchNextPage, 
     hasNextPage, 
     isFetchingNextPage, refetch } = useGetInternationalBeneficiariesPaginated();
-  const [search, setSearch] = useState<string>('');
 
   // Flatten paginated results
   const beneficiaries = data?.pages.flatMap(page => page.beneficiaries) ?? [];
@@ -96,7 +97,7 @@ export default function BeneficiaryScreen() {
   );
 
 	useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       refetch();
     }, [refetch])
   );

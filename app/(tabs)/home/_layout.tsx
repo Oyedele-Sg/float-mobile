@@ -9,6 +9,7 @@ export default function HomeLayout() {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="sendform" />
       <Stack.Screen name="transactions" />
       <Stack.Screen name="transactionreceipt" />
     </Stack>

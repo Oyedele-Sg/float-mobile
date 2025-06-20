@@ -18,9 +18,9 @@ export default function ForgotPasswordScreen() {
     const router = useRouter()
     const useForgetPasswordApi = useMutation({
         mutationFn: ForgotPasswordApi,
-          onSuccess: (data) => {
+          onSuccess: (data, variables) => {
             if (data.success) {
-                router.push({ pathname: '/verify', params: { type: 'forgotpassword'} });
+                router.push({ pathname: '/verify', params: { type: 'forgotpassword', email: variables } });
             }
           },
           onError: (data: any) => {

@@ -16,7 +16,7 @@ export const useAppStore = create<AppStore>()(
     userLogin: userLogin(set, get),
     // signupData: createSignupSlice(set, get, api),
     // saveUserDetails: saveUserDetails(set, get),
-    // userLogout: userLogout(set, get),
+    userLogout: userLogout(set, get),
     send: createSendSlice(set, get, api),
   })),
 );

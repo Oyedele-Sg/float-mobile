@@ -16,9 +16,9 @@ export default function RegisterScreen() {
     const router = useRouter()
     const useSignupApi = useMutation({
         mutationFn: SignupApi,
-        onSuccess: () => {
+        onSuccess: (data, variables) => {
             displaySuccessMessage('Registration Successful');
-            router.push({ pathname: '/verify', params: { type: 'signup'} });
+            router.push({ pathname: '/verify', params: { type: 'signup', email: variables.email } });
         },
         onError: (error) => {
             console.log(error);

@@ -3,8 +3,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useShallow } from 'zustand/shallow';
 import { useAppStore } from '@/store/AppStore';
 import React from 'react';
-import { CustomBox, CustomButton, CustomText, HomeLayoutWrapper } from '@/components';
-import { MoneyWingsIcon } from '@assets/icons';
+import { CustomBox, CustomButton, CustomText, HomeLayoutWrapper, Screen } from '@/components';
+import { GreenCheckIcon, MoneyWingsIcon } from '@assets/icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function SuccessScreen() {
   const router = useRouter()
@@ -15,22 +16,30 @@ export default function SuccessScreen() {
   );
 
   return (
-    <HomeLayoutWrapper backgroundColor='#941009'>
-      <CustomBox flex={1} height={'100%'} justifyContent='space-between' pt={70} >
-        
-        <CustomBox justifyContent='center' alignItems='center' mb={200}>
+    <Screen preset="fixed" statusBarStyle="light-content">
+      <LinearGradient
+        colors={['#941009', '#120201']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        style={{ flex: 1 }}
+      >
+        <CustomBox flex={1} pt={100} px={20}>
+          <CustomBox  justifyContent='center' alignItems='center' mb={200}>
+            <GreenCheckIcon />
+            <CustomText variant='T2434700' color='white'>Money Sent Successfully</CustomText>
+          </CustomBox>
 
-          <MoneyWingsIcon/>
-          <CustomText variant='T2434700' color='white'>Money sent Successfully</CustomText>
-
+          <CustomButton
+            colors='neutral_n800'
+            label='Home'
+            variant='white'
+            onPress={() => {
+              reset();
+              router.replace('/home');
+            }}
+          />
         </CustomBox>
-
-        <CustomButton colors='neutral_n800' label='Home' variant='white' onPress={() => {
-          reset()
-          router.replace('/home')
-        }}/>
-      </CustomBox>
-        
-    </HomeLayoutWrapper>
+      </LinearGradient>
+    </Screen>
   )
 }

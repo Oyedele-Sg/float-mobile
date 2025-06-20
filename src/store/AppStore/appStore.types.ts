@@ -13,5 +13,5 @@ export interface AppStore {
   // signupData: SignupState & SignupActions
   userLogin: (data: ServerUserData) => void;
   // saveUserDetails: (data: ServerUserData) => void;
-  // userLogout: () => void;
+  userLogout: () => void;
 }

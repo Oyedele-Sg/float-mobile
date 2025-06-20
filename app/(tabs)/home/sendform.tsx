@@ -9,7 +9,7 @@ import { useAppStore } from '../../../src/store/AppStore';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useShallow } from 'zustand/shallow';
 import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FlatList } from 'react-native-gesture-handler';
 import { convertField } from '@/lib/convertField';
 import { createInternationalBeneficiaryApi, useGetInternationalFormFieilds } from '@/services/Home/homeServices';
@@ -205,6 +205,7 @@ const renderNestedFields = (
 
 export default function SendFormScreen() {
   const router = useRouter()
+  const queryClient = useQueryClient();
   const { email } = useAppStore(useShallow((state) => state.userData));
   const [bankCodebank, setBankCodebank] = useState<banksType>({nip_bank_code: '', bank_name: '' });
   const {
@@ -249,6 +250,7 @@ export default function SendFormScreen() {
     mutationFn: createInternationalBeneficiaryApi,
       onSuccess: (data) => {
         if (data) {
+          queryClient.invalidateQueries({ queryKey: ['international-beneficiaries'] });
           presentModal();
         }
       },

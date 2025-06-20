@@ -59,7 +59,7 @@ export const displaySuccessMessage = (
 };
 
 export const displayInfoMessage = (
-  title: string,
+  // title: string,
   description: string,
   duration?: number,
 ) => {

@@ -42,7 +42,7 @@ export default function HomeScreen() {
           }}
           onSubmit={(values) => {
             if (countryName.length > 0 && countryCode.length > 0) {
-              router.navigate('/beneficiary/sendform')
+              router.push('/home/sendform')
             }
           }}
         >
