@@ -5,7 +5,14 @@
     "version": "1.0.0",
     "scheme": "floattransferscheme",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.com.raiz",
+          "publishableKey": "pk_test_51RgPvNELeZMXxltmhSlFHircwMYovsm8cYhn2ZoYruZm4zQYa9B85Xucv23oYMof7F5uO8eYXCUOVxrY33Jmd0tq00xry2vRaA"
+        }
+      ]
     ]
   }
 }

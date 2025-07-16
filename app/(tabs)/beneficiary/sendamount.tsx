@@ -2,28 +2,53 @@ import {CustomBox, CustomButton, CustomInput, CustomText, HomeLayoutWrapper, Scr
 import {useRouter} from "expo-router";
 import { Formik } from 'formik';
 import CountryFlag from 'react-native-country-flag';
+import { useStripe, CardForm } from '@stripe/stripe-react-native';
 import { useAppStore } from '@/store/AppStore';
 import { useShallow } from 'zustand/shallow';
 import { useEffect, useState } from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { validateValues } from '@/lib/validateValues';
-import { InternationalFinalizePayout, SendInternationalInitialPayout, useGetRemittanceInternationalMinAmount } from '@/services/Send/sendServices';
+import { confirmUsdStripePayment, createUsdStripeIntent, GetStripeTransactionFee, InternationalFinalizePayout, SendInternationalInitialPayout, useGetRemittanceInternationalMinAmount } from '@/services/Send/sendServices';
 import { useBottomSheetModalHook } from '@/hooks/useBottomSheetModal';
 import { useMutation } from '@tanstack/react-query';
-import { InternatioanlInitialPayoutResponse } from '@/services';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { InternatioanlInitialPayoutResponse, StripeIntentResponse } from '@/services';
+import { BottomSheetModal, useBottomSheetModal } from '@gorhom/bottom-sheet';
 import { InternationalSendSummaryModal } from '@/beneficiary/InternationalSendSummary';
-import { Keyboard } from 'react-native';
+import { Keyboard, Platform } from 'react-native';
 import { displayErrorMessage, displayInfoMessage, displaySuccessMessage } from '@/lib/toast';
+import useScreenSnapshots from '@/hooks/useScreenSnapPoints';
+import useKeyboard from '@/components/keyboardHeight';
+import { formatNumber } from '@/lib/formatNumber';
+
+function convertToUSD(amount: number, rate: number): number {
+  if (isNaN(amount) || isNaN(rate) || rate <= 0) {
+    throw new Error('Invalid amount or exchange rate');
+  }
+  return parseFloat((amount / rate).toFixed(2));
+}
 
 export default function SendAmountcreen() {
   const router = useRouter()
+  const { createPaymentMethod } = useStripe();
+  const { dismissAll } = useBottomSheetModal();
+
+  const keyboardHeight = useKeyboard();
+  const [stripeIntent, setStripeIntent] = useState<StripeIntentResponse | null>(
+    null,
+  );
+  const [stripeFee, setStripeFee] = useState<number>(0);
+  const [stripeValue, setStripeValue] = useState<number>(0);
   const [amount, setAmount] = useState<string | number>(0);
+  const [isFormComplete, setIsFormComplete] =	useState<boolean>(false);
+  const [isLoading, setIsLoading] =	useState<boolean>(false);
   const [remittanceAmount, setRemittanceAmount] = useState<number>(0);
   const [isActive, setActive] = useState<boolean>(true);
   const [timeLeft, setTimeLeft] = useState<number>(121);
   const [hasFinalized, setHasFinalized] = useState(false);
-  const [initialPayoutData, setInitialPayoutData] =		useState<InternatioanlInitialPayoutResponse>();
+  const [initialPayoutData, setInitialPayoutData] = useState<InternatioanlInitialPayoutResponse>();
+  const { first_name, last_name, email } = useAppStore(
+    useShallow((state) => state.userData),
+  );
   const {
     beneficiary_country,
     beneficiary_currency,
@@ -35,8 +60,43 @@ export default function SendAmountcreen() {
   } = useAppStore(
     useShallow((state) => state.send)
   );
+  const user_kyc = {
+    name: `${first_name} ${last_name}`,
+    email,
+  };
+  const dynamicSnapPoints =		keyboardHeight > 0
+    ? useScreenSnapshots(['72%', '72%'], ['72%', '72%']) // when keyboard open
+    : useScreenSnapshots(['45%', '45%'], ['50%', '50%']);
   
   const remittanceMinAmountApi = useGetRemittanceInternationalMinAmount(beneficiary_currency);
+
+  const useGetFees = useMutation({
+    mutationFn: ({ transactionAmount }: { transactionAmount: number }) => GetStripeTransactionFee({
+      transactionAmount,
+    }),
+    onSuccess: (data) => {
+      if (data) {
+        setStripeFee(data.fee);
+        topUpSummaryPresentModal();
+      }
+    },
+  });
+
+  const handleProceed = async () => {
+    Keyboard.dismiss();
+    if (!initialPayoutData?.amount || !initialPayoutData?.fees) {
+      displayInfoMessage(
+        'invalid amount please restart the process again'
+      );
+      return;
+    }
+    const stripeAmount = initialPayoutData?.amount + initialPayoutData?.fees;
+    setStripeValue(stripeAmount);
+
+    useGetFees.mutate({
+      transactionAmount: Math.ceil(stripeAmount),
+    });
+  };
 
   const useInternationalInitialPayout = useMutation({
       mutationFn: SendInternationalInitialPayout,
@@ -82,6 +142,100 @@ export default function SendAmountcreen() {
     const secs = seconds % 60;
     return `${String(minutes).padStart(2, '0')} : ${String(secs).padStart(2, '0')}`;
   };
+
+  const handleCardFormSubmit = async () => {
+    Keyboard.dismiss();
+
+    const dismissAfterKeyboard = () => {
+      if (Platform.OS === 'android') {
+        const subscription = Keyboard.addListener('keyboardDidHide', () => {
+          dismissAll();
+          subscription.remove();
+        });
+      } else {
+        dismissAll();
+      }
+    };
+
+    setIsFormComplete(false);
+    setIsLoading(true);
+
+    const { paymentMethod, error } = await createPaymentMethod({
+      paymentMethodType: 'Card',
+      paymentMethodData: {
+        billingDetails: {
+          name: user_kyc.name,
+          email: user_kyc.email
+        },
+      }
+    });
+
+    dismissAfterKeyboard();
+
+    if (error) {
+      
+      displayInfoMessage('Unable to create payment method');
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(false);
+
+    if (paymentMethod?.id) {
+      // setPaymentMethodId(paymentMethod.id);
+
+      // router.push('/paymentmodals/success')
+      
+      // setStripeIntent(null);
+      useCreateIntentApi.mutate({
+        amount: Number(stripeValue) * 100,
+        paymentMethodId: paymentMethod.id,
+      });
+    }
+  };
+
+  const useCreateIntentApi = useMutation({
+    mutationFn: ({
+      amount,
+      paymentMethodId,
+    }: {
+      amount: number;
+      paymentMethodId: string;
+    }) => createUsdStripeIntent(amount, paymentMethodId),
+    onSuccess: async (data) => {
+      setStripeIntent(data);
+      dismissCardFormModal();
+      if (data) {
+        useConfirmPaymentApi.mutate(data.payment_intent_id);
+        
+      }
+    },
+  });
+
+  const useConfirmPaymentApi = useMutation({
+    mutationFn: confirmUsdStripePayment,
+    onSuccess: async (data) => {
+      if (data) {
+        useInternationalFinalizePayout.mutate({
+          payout_initiation_id: payout_initiation_id || '',
+        });
+        
+        setStripeIntent(null);
+      }
+    },
+  });
+
+  const {
+    modalRef: cardFormModalRef,
+    presentModal: presentCardFormModal,
+    dismissModal: dismissCardFormModal,
+    snapPoints: cardFormSnapPoints,
+    renderBackdrop: cardFormBackdrop,
+    handle: cardFormHandle,
+  } = useBottomSheetModalHook({
+    snapPoints: dynamicSnapPoints,
+    backdropPressBehavior: 'none',
+  });
   
   const {
     modalRef: interPayoutSummaryModal,
@@ -93,6 +247,21 @@ export default function SendAmountcreen() {
   } = useBottomSheetModalHook({
     snapPoints: ['75%', '75%'],
     backdropPressBehavior: 'none',
+  });
+
+  const {
+    modalRef: topUpSummaryModal,
+    presentModal: topUpSummaryPresentModal,
+    snapPoints: summarySnapPoints,
+    renderBackdrop: summaryBackdrop,
+    dismissModal: topUpDismissModal,
+    // handle,
+  } = useBottomSheetModalHook({
+    snapPoints: useScreenSnapshots(
+      ['45%', '45%'],
+      ['45%', '45%'],
+    ),
+    backdropPressBehavior: 'close',
   });
 
   useEffect(() => {
@@ -109,9 +278,9 @@ export default function SendAmountcreen() {
 
   useEffect(() => {
     if (timeLeft <= 1) {
-      displayErrorMessage(
-        'Wait Time Elasped: Please Initiate Another Transaction'
-      );
+      // displayErrorMessage(
+      //   'Wait Time Elasped: Please Initiate Another Transaction'
+      // );
       interPayoutSummaryModalDismiss();
     }
     const intervalId = setInterval(() => {
@@ -129,14 +298,14 @@ export default function SendAmountcreen() {
     return () => clearInterval(intervalId);
   }, [isActive, timeLeft]);
 
-  useEffect(() => {
-    if (transaction_pin && !hasFinalized) {
-      setHasFinalized(true);
-      useInternationalFinalizePayout.mutate({
-        payout_initiation_id: payout_initiation_id || '',
-      });
-    }
-  }, [transaction_pin, hasFinalized]);
+  // useEffect(() => {
+  //   if (transaction_pin && !hasFinalized) {
+  //     setHasFinalized(true);
+  //     useInternationalFinalizePayout.mutate({
+  //       payout_initiation_id: payout_initiation_id || '',
+  //     });
+  //   }
+  // }, [transaction_pin, hasFinalized]);
   return (
     <HomeLayoutWrapper backBt header={`How much do you want to send?`} preset='fixed' backFn={() => {
       reset();
@@ -204,7 +373,10 @@ export default function SendAmountcreen() {
                   disabled={!validateValues(values)}
                   loading={remittanceMinAmountApi.isLoading ||
                     useInternationalInitialPayout.isPending || 
-                    useInternationalFinalizePayout.isPending
+                    useInternationalFinalizePayout.isPending || 
+                    useGetFees.isPending ||
+                    useCreateIntentApi.isPending ||
+                    isLoading
                   }
                   onPress={handleSubmit} label='Next' />
               </CustomBox>
@@ -226,9 +398,127 @@ export default function SendAmountcreen() {
           timer={formatTime(timeLeft)}
           onClose={() => {
             interPayoutSummaryModalDismiss();
-            router.push('/paymentmodals')
+            // router.push('/paymentmodals')
+            handleProceed()
           }}
         />
+      </BottomSheetModal>
+      <BottomSheetModal
+        name="topUpSummaryModal"
+        ref={topUpSummaryModal}
+        index={1}
+        snapPoints={summarySnapPoints}
+        handleComponent={handle}
+        backdropComponent={summaryBackdrop}
+      >
+        <CustomBox
+          paddingHorizontal={20}
+          flex={1}
+          justifyContent="space-between"
+          paddingTop={40}
+          paddingBottom={40}
+        >
+          <CustomBox>
+            <CustomBox alignItems="center">
+              <CustomText variant="T1624600" color="gray_950">
+                Your Card Will be Debited With
+              </CustomText>
+              <CustomText variant="T1824600" color="gray_950">
+                {getSymbolFromCurrency('usd')}
+                {formatNumber(stripeValue + stripeFee / 100)}
+              </CustomText>
+            </CustomBox>
+            <CustomBox mb={16}>
+              <CustomBox
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+                paddingTop={15}
+                paddingBottom={12}
+                borderBottomWidth={1}
+                borderBottomColor="gray_bg"
+              >
+                <CustomText variant="T1420400" color="gray_950">
+                  Amount
+                </CustomText>
+                <CustomText variant="T1420400" color="gray_950">
+                  {getSymbolFromCurrency('usd')}
+                  {formatNumber(stripeValue)}
+                </CustomText>
+              </CustomBox>
+              <CustomBox
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+                paddingTop={15}
+                paddingBottom={12}
+              >
+                <CustomText variant="T1420400" color="gray_950">
+                  Fees
+                </CustomText>
+                <CustomText variant="T1420400" color="gray_950">
+                  {getSymbolFromCurrency('usd')}
+                  {formatNumber(stripeFee / 100)}
+                </CustomText>
+              </CustomBox>
+            </CustomBox>
+          </CustomBox>
+
+          <CustomBox gap={12}>
+            <CustomButton
+              variant='plain'
+              onPress={() => {
+                topUpDismissModal();
+                // Open Card Form BottomSheet
+                presentCardFormModal();
+              }}
+              label='Top up' />
+            <CustomButton
+              onPress={() => {
+                setStripeFee(0);
+                topUpDismissModal();
+              }}
+              label='Cancel' />
+
+          </CustomBox>
+        </CustomBox>
+      </BottomSheetModal>
+      <BottomSheetModal
+        name="cardFormModal"
+        ref={cardFormModalRef}
+        index={0}
+        snapPoints={cardFormSnapPoints}
+        handleComponent={cardFormHandle}
+        backdropComponent={cardFormBackdrop}
+      >
+        <CustomBox paddingHorizontal={20} flex={1} paddingTop={20}>
+          <CardForm
+            cardStyle={{
+              backgroundColor: '#FFFFFF',
+              textColor: '#000000',
+            }}
+            style={{ height: Platform.OS === 'ios' ? 180 : 260 }}
+            onFormComplete={(cardDetails) => {
+              setIsFormComplete(cardDetails.complete);
+            }}
+          />
+
+          <CustomBox mt={20}>
+            <CustomButton
+              size="big"
+              variant='plain'
+              label="Proceed With Payment"
+              disabled={!isFormComplete}
+              loading={
+                useCreateIntentApi.isPending
+                || isLoading
+              }
+              onPress={() => {
+                void handleCardFormSubmit();
+              }}
+            />
+          </CustomBox>
+        </CustomBox>
       </BottomSheetModal>
     </HomeLayoutWrapper>
     )

@@ -1,5 +1,5 @@
 import { AuthAxios } from '@/lib/axios';
-import { InternationalFinalizePayoutParams, SendReport } from './send.types';
+import { InternationalFinalizePayoutParams, SendReport, StripeIntentResponse } from './send.types';
 import { QueryFunctionContext, useQuery } from '@tanstack/react-query';
 import { InternatioanlInitialPayoutResponse } from '../Home';
 
@@ -40,4 +40,38 @@ export async function InternationalFinalizePayout(
     `/transactions/remittance/payout/finalize/?payout_initiation_id=${data.payout_initiation_id}`
   );
   return response.data;
+}
+
+export async function createUsdStripeIntent(amount: number, paymentMethodId: string): Promise<StripeIntentResponse> {
+  const response = await AuthAxios.post(
+    '/transactions/topup/usd/create-intent/',
+    {
+      currency: 'usd',
+      transaction_amount: amount,
+      payment_method_id: paymentMethodId,
+    },
+  );
+  return response.data;
+}
+
+export async function confirmUsdStripePayment(payment_intent: string): Promise<any> {
+  const response = await AuthAxios.post(
+    '/transactions/topup/usd/confirm-intent/',
+    {
+      currency: 'USD',
+      payment_intent,
+    },
+  );
+  return response.data;
+}
+
+export async function GetStripeTransactionFee({
+	transactionAmount
+}: {
+	transactionAmount: number
+}): Promise<{fee: number}> {
+	const response = await AuthAxios.get(
+		`/transactions/topup/usd/stripe/fee/?transaction_amount=${transactionAmount}`
+	);
+	return response.data;
 }

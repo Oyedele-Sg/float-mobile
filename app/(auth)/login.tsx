@@ -30,7 +30,8 @@ export default function LoginScreen() {
         onSuccess: (data) => {
             displaySuccessMessage('Login Successful');
             userLogin(data);
-            router.push('/addBank')
+            // router.push('/addBank')
+            router.navigate('/home')
 		},
         onError: (error: any) => {
             console.log('login error', error);

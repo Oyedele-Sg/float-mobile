@@ -185,18 +185,20 @@ export const InternationalSendSummaryModal = ({
 				</CustomBox>
 
 				<CustomBox gap={16} mt={20}>
-					<CustomButton onPress={() => {
-						setInternationalPayout({
-							payout_initiation_id: initialPayoutData.payout_initiation_id,
-							transaction_time: initialPayoutData.created_at
-						});
-						setAmountAndRemarks({
-							transaction_amount: initialPayoutData.amount,
-							transactionAmountWithFees: initialPayoutData.payout_amount,
-							fees: initialPayoutData.fees
-						});
-						onClose();
-					}} label='Confirm' />
+					<CustomButton
+						onPress={() => {
+							setInternationalPayout({
+								payout_initiation_id: initialPayoutData.payout_initiation_id,
+								transaction_time: initialPayoutData.created_at
+							});
+							setAmountAndRemarks({
+								transaction_amount: initialPayoutData.amount,
+								transactionAmountWithFees: initialPayoutData.payout_amount,
+								fees: initialPayoutData.fees
+							});
+							onClose();
+						}}
+						label='Confirm' />
 				</CustomBox>
 			</CustomBox>
 		</CustomBox>

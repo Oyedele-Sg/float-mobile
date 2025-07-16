@@ -29,7 +29,7 @@ export type TransactionReport = {
   transaction_status: TransactionStatus;
 };
 
-export type TransactionStatus = {
+type TransactionStatus = {
   transaction_status: string;
   transaction_status_description: string;
   transaction_status_code: number;

@@ -16,7 +16,7 @@ export default function ChangePasswordScreen() {
                         first_name: first_name || '',
                         last_name: last_name || '',
                         email: email || '',
-                        phone_number: phone_number || '',
+                        // phone_number: phone_number || '',
                     }}
                     onSubmit={() => {
                         
@@ -38,7 +38,7 @@ export default function ChangePasswordScreen() {
                                     </CustomBox>
                                 </CustomBox>
                                 <CustomInput name="email" placeholder='Email' />
-                                <CustomInput name="phone_number" placeholder='Phone Number' />
+                                {/* <CustomInput name="phone_number" placeholder='Phone Number' /> */}
                             </CustomBox>
 
                             <CustomBox mt={22}>

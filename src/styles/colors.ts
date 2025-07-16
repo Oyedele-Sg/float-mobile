@@ -31,7 +31,7 @@ export const colors = {
     text_error: '#DC180D',
     error_200: '#FECDCA',
 
-    buttonDisabled: '#FDA29B',
+    buttonDisabled: '#E25B50',
     authButtonBackground: '#090707',
     darkText: '#090707',
     blueText: '#2341D8',

@@ -41,3 +41,11 @@ export type SendReport = {
   updated_at: string; // ISO Date string
   transaction_status: TransactionStatus;
 };
+
+export interface StripeIntentResponse {
+  customer_id: string
+  ephemeralKey: string
+  client_secret: string
+  payment_intent_id: string
+  fee: number
+}

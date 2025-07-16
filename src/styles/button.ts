@@ -17,4 +17,8 @@ export const button = {
         backgroundColor: 'white',
         borderColor: 'white',
     },
+    plain: {
+        backgroundColor: 'secondary_red',
+        borderColor: 'secondary_red',
+    },
 }

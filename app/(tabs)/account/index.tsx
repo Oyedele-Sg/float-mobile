@@ -29,20 +29,32 @@ export default function AccountScreen() {
       });
     return (
         <HomeLayoutWrapper header='Account Settings'>
-          <CustomBox gap={27}>
-              <CustomBox gap={13}>
+          <CustomBox gap={20}>
+              <CustomBox py={20}  alignItems='center' gap={5}>
                   <CustomText variant='T1824600' color='headertext'>{first_name} {last_name}</CustomText>
                   <CustomText variant='T1422500' color='gray_text'>{email}</CustomText>
               </CustomBox>
 
-              <CustomBox gap={4}>
+              {/* <CustomBox gap={4}>
                   <CustomText variant='T1422500' color='gray_text' textTransform='uppercase'>Account Information</CustomText>
                   <CustomPressable
                       onPress={() => {
                           router.push('/account/accountsettings');
                       }}
                   >
-                      <CustomBox flexDirection='row' paddingVertical={13} alignItems='center' justifyContent='space-between'>
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
                               <EditUserIcon />
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Edit Account Information</CustomText>
@@ -50,16 +62,30 @@ export default function AccountScreen() {
                           <ChevronRightIcon />
                       </CustomBox>
                   </CustomPressable>
-              </CustomBox>
+                </CustomBox> */}
+                
+                {/* <CustomBox borderColor="gray_bg" width={'100%'} borderWidth={1}/> */}
 
-              <CustomBox gap={4}>
+              {/* <CustomBox gap={4}>
                   <CustomText variant='T1422500' color='gray_text'  textTransform='uppercase'>Finance</CustomText>
                   <CustomPressable
                       onPress={() => {
                           router.push('/account/bankcards')
                       }}
                   >
-                      <CustomBox flexDirection='row' paddingVertical={13} alignItems='center' justifyContent='space-between'>
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
                               <BankCardIcon />
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Bank cards</CustomText>
@@ -67,16 +93,30 @@ export default function AccountScreen() {
                           <ChevronRightIcon />
                       </CustomBox>
                   </CustomPressable>
-              </CustomBox>
+                </CustomBox>
+                
+                <CustomBox borderColor="gray_bg" width={'100%'} borderWidth={1}/> */}
 
-              <CustomBox gap={4}>
+                <CustomBox gap={4}>
                   <CustomText variant='T1422500' color='gray_text'  textTransform='uppercase'>Security</CustomText>
                   <CustomPressable
                         onPress={() => {
                           router.push('/account/changepassword')
                       }}
                   >
-                      <CustomBox flexDirection='row' paddingVertical={13} alignItems='center' justifyContent='space-between'>
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
                               <PasswordIcon />
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Change Password</CustomText>
@@ -85,10 +125,72 @@ export default function AccountScreen() {
                       </CustomBox>
                   </CustomPressable>
                   <CustomPressable onPress={() => {}}>
-                      <CustomBox flexDirection='row' paddingVertical={13} alignItems='center' justifyContent='space-between'>
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
                               <HelpIcon />
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Help & support</CustomText>
+                          </CustomBox>
+                          <ChevronRightIcon />
+                      </CustomBox>
+                  </CustomPressable>
+                </CustomBox>
+
+                <CustomBox gap={4}>
+                  <CustomText variant='T1422500' color='gray_text'  textTransform='uppercase'>Social Media</CustomText>
+                  <CustomPressable
+                        onPress={() => {
+                          router.push('/account/changepassword')
+                      }}
+                  >
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
+                          <CustomBox flexDirection='row' alignItems='center' gap={6}>
+                              <PasswordIcon />
+                              <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Instagram</CustomText>
+                          </CustomBox>
+                          <ChevronRightIcon />
+                      </CustomBox>
+                  </CustomPressable>
+                  <CustomPressable onPress={() => {}}>
+                        <CustomBox
+                            borderColor="gray_bg"
+                            shadowOffset= {{ width: 0, height: 0 }}
+                            shadowOpacity= {0.03}
+                            shadowRadius= {2}
+                            elevation= {1}
+                            shadowColor='gray_950'
+                            p={15}
+                            borderRadius={15}
+                            borderWidth={1}
+                            flexDirection='row'
+                            alignItems='center'
+                            justifyContent='space-between'>
+                          <CustomBox flexDirection='row' alignItems='center' gap={6}>
+                              <HelpIcon />
+                              <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>FaceBook</CustomText>
                           </CustomBox>
                           <ChevronRightIcon />
                       </CustomBox>
