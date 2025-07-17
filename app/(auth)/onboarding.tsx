@@ -46,6 +46,8 @@ export default function OnboardingContinueeScreen() {
   const biometricLoginText = 'Login with Biometrics';
   const keyboardHeight = useKeyboard();
   const isLoggedinBefore: isLoggedinBeforeProps | null = MMKV.getMap('isFirstTimeLogin') || null;
+  const [isEmail, setIsEmail] = useState('');
+	const [pass, setPassword] = useState<string>('');
 
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -65,7 +67,7 @@ export default function OnboardingContinueeScreen() {
   
               const isFirstTimeLoginDetails = {
           email: data.email,
-          password: isLoggedinBefore?.password,
+          password: isLoggedinBefore?.password || pass,
           firstName: data.first_name,
           lastName: data.last_name,
           firstTimeUser: isLoggedinBefore?.firstTimeUser ?? true,
@@ -193,7 +195,9 @@ export default function OnboardingContinueeScreen() {
               }}
               onSubmit={(values) => {
                 Keyboard.dismiss();
-                
+
+                setIsEmail(values.email.toLowerCase());
+						    setPassword(passwordHash(values.password));
 
                 if (
                   isLoggedinBefore &&

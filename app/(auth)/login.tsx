@@ -12,11 +12,13 @@ import { LoginApi, GetUsersDetails, RefreshOTP } from '@services/Auth/AuthServic
 import { useAppStore } from '@store/AppStore';
 import { displayErrorMessage, displaySuccessMessage } from '@/lib/toast';
 import { isLoggedinBeforeProps } from '@/services/Auth/AuthServices.types';
+import { useState } from 'react';
 
 export default function LoginScreen() {
     const router = useRouter()
     const { authData, userLogin } = useAppStore();
     const isLoggedinBefore = MMKV.getMap<isLoggedinBeforeProps>('isFirstTimeLogin');
+    const [pass, setPassword] = useState<string>('');
 
     const useRefreshOTP = useMutation({
 		mutationFn: RefreshOTP,
@@ -35,7 +37,7 @@ export default function LoginScreen() {
 
             const isFirstTimeLoginDetails = {
 				email: data.email,
-				password: isLoggedinBefore?.password,
+				password: isLoggedinBefore?.password || pass,
 				firstName: data.first_name,
 				lastName: data.last_name,
 				firstTimeUser: isLoggedinBefore?.firstTimeUser ?? true,
@@ -83,6 +85,8 @@ export default function LoginScreen() {
                     }}
                     onSubmit={(values) => {
                         Keyboard.dismiss();
+
+                        setPassword(passwordHash(values.password));
                         useLogin.mutate({
 							email: values.email.toLowerCase(),
 							password: passwordHash(values.password)
