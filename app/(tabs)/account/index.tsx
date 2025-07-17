@@ -1,7 +1,7 @@
 import {CustomBox, CustomButton, CustomPressable, CustomText, HomeLayoutWrapper, Screen, UseBottomSheetView} from "@/components";
 import {useAppStore} from "@store/AppStore";
 import {useShallow} from "zustand/shallow";
-import {BankCardIcon, ChevronRightIcon, EditUserIcon, HelpIcon, LogoutIcon, PasswordIcon} from "@assets/icons";
+import {BankCardIcon, ChevronRightIcon, EditUserIcon, FacebookIcon, HelpIcon, InstagramIcon, LogoutIcon, PasswordIcon} from "@assets/icons";
 import {useRouter} from "expo-router";
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useBottomSheetModalHook } from '@/hooks/useBottomSheetModal';
@@ -106,11 +106,6 @@ export default function AccountScreen() {
                   >
                         <CustomBox
                             borderColor="gray_bg"
-                            shadowOffset= {{ width: 0, height: 0 }}
-                            shadowOpacity= {0.03}
-                            shadowRadius= {2}
-                            elevation= {1}
-                            shadowColor='gray_950'
                             p={15}
                             borderRadius={15}
                             borderWidth={1}
@@ -127,11 +122,6 @@ export default function AccountScreen() {
                   <CustomPressable onPress={() => {}}>
                         <CustomBox
                             borderColor="gray_bg"
-                            shadowOffset= {{ width: 0, height: 0 }}
-                            shadowOpacity= {0.03}
-                            shadowRadius= {2}
-                            elevation= {1}
-                            shadowColor='gray_950'
                             p={15}
                             borderRadius={15}
                             borderWidth={1}
@@ -151,16 +141,11 @@ export default function AccountScreen() {
                   <CustomText variant='T1422500' color='gray_text'  textTransform='uppercase'>Social Media</CustomText>
                   <CustomPressable
                         onPress={() => {
-                          router.push('/account/changepassword')
+                        //   router.push('/account/changepassword')
                       }}
                   >
                         <CustomBox
                             borderColor="gray_bg"
-                            shadowOffset= {{ width: 0, height: 0 }}
-                            shadowOpacity= {0.03}
-                            shadowRadius= {2}
-                            elevation= {1}
-                            shadowColor='gray_950'
                             p={15}
                             borderRadius={15}
                             borderWidth={1}
@@ -168,7 +153,7 @@ export default function AccountScreen() {
                             alignItems='center'
                             justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
-                              <PasswordIcon />
+                              <InstagramIcon />
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>Instagram</CustomText>
                           </CustomBox>
                           <ChevronRightIcon />
@@ -177,11 +162,6 @@ export default function AccountScreen() {
                   <CustomPressable onPress={() => {}}>
                         <CustomBox
                             borderColor="gray_bg"
-                            shadowOffset= {{ width: 0, height: 0 }}
-                            shadowOpacity= {0.03}
-                            shadowRadius= {2}
-                            elevation= {1}
-                            shadowColor='gray_950'
                             p={15}
                             borderRadius={15}
                             borderWidth={1}
@@ -189,7 +169,7 @@ export default function AccountScreen() {
                             alignItems='center'
                             justifyContent='space-between'>
                           <CustomBox flexDirection='row' alignItems='center' gap={6}>
-                              <HelpIcon />
+                              <FacebookIcon  color={'#ffffff'}/>
                               <CustomText variant='T1422500' color='headertext' textTransform='capitalize'>FaceBook</CustomText>
                           </CustomBox>
                           <ChevronRightIcon />

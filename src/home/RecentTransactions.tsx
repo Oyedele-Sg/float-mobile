@@ -180,11 +180,6 @@ export const Transaction = ({
           p={15}
           borderRadius={20}
           borderColor="gray_bg"
-          shadowOffset= {{ width: 0, height: 0 }}
-          shadowOpacity= {0.03}
-          shadowRadius= {2}
-          elevation= {1}
-          shadowColor='gray_950'
         >
           <CustomBox flexDirection="row" alignItems="center">
             <CustomBox
@@ -197,7 +192,11 @@ export const Transaction = ({
               alignItems="center"
               justifyContent="center"
             >
-              <CountryFlag isoCode={data.beneficiary_country} size={24} />
+              {data.beneficiary_country && (
+                <CountryFlag isoCode={data.beneficiary_country.toLocaleLowerCase()} size={24} />
+              )}
+              
+              
             </CustomBox>
             <CustomBox>
               <CustomText
@@ -207,6 +206,7 @@ export const Transaction = ({
                 }}
               >
                 {name}
+                {data.beneficiary_country}
               </CustomText>
               <CustomText
                 style={{

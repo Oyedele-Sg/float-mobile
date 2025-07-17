@@ -11,7 +11,8 @@ export default function AuthLayout() {
                 headerShadowVisible: false,
             }}
         >
-            <Stack.Screen name="index" />
+            <Stack.Screen name="onboardingStories" />
+            <Stack.Screen name="onboarding" />
             <Stack.Screen name="register" />
             <Stack.Screen name="verify" />
             <Stack.Screen name="successRegistration" />

@@ -53,13 +53,12 @@ export function CustomInput({
             <CustomBox>
                 <InputWrapper
                     paddingHorizontal={18}
-                    paddingVertical={8}
                     flexDirection="row"
                     alignItems="flex-end"
                     borderRadius={20}
                     borderWidth={1}
                     flex={1}
-                    minHeight={44}
+                    minHeight={50}
                     style={{ alignItems: 'center' }}
                     borderColor='neutral_50'
                 >
@@ -117,7 +116,7 @@ CustomInput.defaultProps = {
 const styles = StyleSheet.create({
     secureButton: {
         position: 'absolute',
-        top: 11,
+        top: 15,
         right: 18,
     },
     inputStyle: {

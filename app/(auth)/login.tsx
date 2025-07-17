@@ -11,10 +11,12 @@ import { useMutation } from '@tanstack/react-query';
 import { LoginApi, GetUsersDetails, RefreshOTP } from '@services/Auth/AuthServices'
 import { useAppStore } from '@store/AppStore';
 import { displayErrorMessage, displaySuccessMessage } from '@/lib/toast';
+import { isLoggedinBeforeProps } from '@/services/Auth/AuthServices.types';
 
 export default function LoginScreen() {
     const router = useRouter()
     const { authData, userLogin } = useAppStore();
+    const isLoggedinBefore = MMKV.getMap<isLoggedinBeforeProps>('isFirstTimeLogin');
 
     const useRefreshOTP = useMutation({
 		mutationFn: RefreshOTP,
@@ -30,6 +32,18 @@ export default function LoginScreen() {
         onSuccess: (data) => {
             displaySuccessMessage('Login Successful');
             userLogin(data);
+
+            const isFirstTimeLoginDetails = {
+				email: data.email,
+				password: isLoggedinBefore?.password,
+				firstName: data.first_name,
+				lastName: data.last_name,
+				firstTimeUser: isLoggedinBefore?.firstTimeUser ?? true,
+				isBiometricHasError: isLoggedinBefore?.isBiometricHasError ?? false,
+				biometricPermission: isLoggedinBefore?.biometricPermission ?? false,
+			};
+
+			MMKV.setMap('isFirstTimeLogin', isFirstTimeLoginDetails);
             // router.push('/addBank')
             router.navigate('/home')
 		},

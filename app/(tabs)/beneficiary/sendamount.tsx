@@ -188,7 +188,7 @@ export default function SendAmountcreen() {
       
       // setStripeIntent(null);
       useCreateIntentApi.mutate({
-        amount: Number(stripeValue) * 100,
+        amount: stripeValue * 100,
         paymentMethodId: paymentMethod.id,
       });
     }
@@ -365,7 +365,8 @@ export default function SendAmountcreen() {
                     setAmount(sanitizedValue);
                     setValues({amount: sanitizedValue});
                   }}
-                  name='amount' placeholder='0.00' />
+                  name='amount'
+                  placeholder='0.00' />
                 </CustomBox>
               
               <CustomBox mb={22}>
@@ -376,7 +377,8 @@ export default function SendAmountcreen() {
                     useInternationalFinalizePayout.isPending || 
                     useGetFees.isPending ||
                     useCreateIntentApi.isPending ||
-                    isLoading
+                    isLoading ||
+                    useConfirmPaymentApi.isPending
                   }
                   onPress={handleSubmit} label='Next' />
               </CustomBox>
@@ -454,7 +456,7 @@ export default function SendAmountcreen() {
                 paddingBottom={12}
               >
                 <CustomText variant="T1420400" color="gray_950">
-                  Fees
+                  Card Fee
                 </CustomText>
                 <CustomText variant="T1420400" color="gray_950">
                   {getSymbolFromCurrency('usd')}

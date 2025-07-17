@@ -12,6 +12,12 @@
           "merchantIdentifier": "merchant.com.raiz",
           "publishableKey": "pk_test_51RgPvNELeZMXxltmhSlFHircwMYovsm8cYhn2ZoYruZm4zQYa9B85Xucv23oYMof7F5uO8eYXCUOVxrY33Jmd0tq00xry2vRaA"
         }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow Float Transfer to use Face ID."
+        }
       ]
     ]
   }

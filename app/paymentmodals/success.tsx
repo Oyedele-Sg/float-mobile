@@ -24,7 +24,7 @@ export default function SuccessScreen() {
         style={{ flex: 1 }}
       >
         <CustomBox flex={1} pt={100} px={20}>
-          <CustomBox  justifyContent='center' alignItems='center' mb={200}>
+          <CustomBox gap={20}  justifyContent='center' alignItems='center' mb={200}>
             <GreenCheckIcon />
             <CustomText variant='T2434700' color='white'>Money Sent Successfully</CustomText>
           </CustomBox>
