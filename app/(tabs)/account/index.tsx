@@ -9,6 +9,7 @@ import useScreenSnapshots from '@/hooks/useScreenSnapPoints';
 import { useMutation } from '@tanstack/react-query';
 import { ForgotPasswordApi } from '@/services/Auth/AuthServices';
 import { displaySuccessMessage } from '@/lib/toast';
+import { Linking } from 'react-native';
 
 
 export default function AccountScreen() {
@@ -119,7 +120,9 @@ export default function AccountScreen() {
                           <ChevronRightIcon />
                       </CustomBox>
                   </CustomPressable>
-                  <CustomPressable onPress={() => {}}>
+                    <CustomPressable onPress={() => {
+                        Linking.openURL('https://floattransfer.com/contact/')
+                  }}>
                         <CustomBox
                             borderColor="gray_bg"
                             p={15}
@@ -141,7 +144,7 @@ export default function AccountScreen() {
                   <CustomText variant='T1422500' color='gray_text'  textTransform='uppercase'>Social Media</CustomText>
                   <CustomPressable
                         onPress={() => {
-                        //   router.push('/account/changepassword')
+                            Linking.openURL('https://www.instagram.com/float_transfer')
                       }}
                   >
                         <CustomBox
@@ -159,7 +162,9 @@ export default function AccountScreen() {
                           <ChevronRightIcon />
                       </CustomBox>
                   </CustomPressable>
-                  <CustomPressable onPress={() => {}}>
+                    <CustomPressable onPress={() => {
+                        Linking.openURL('https://www.facebook.com/profile.php?id=61578347241318')
+                  }}>
                         <CustomBox
                             borderColor="gray_bg"
                             p={15}
